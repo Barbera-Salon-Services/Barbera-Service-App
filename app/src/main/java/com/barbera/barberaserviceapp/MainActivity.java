@@ -54,12 +54,9 @@ public class MainActivity extends AppCompatActivity {
     private void getInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("ServiceChannel",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
+        editor.putString("channel_name",);
+        editor.apply();
 
-        FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                .get().addOnCompleteListener(task -> {
-                    editor.putString("channel_name",task.getResult().getString("channel_name"));
-                    editor.apply();
-                });
     }
 
     @SuppressLint("NonConstantResourceId")
