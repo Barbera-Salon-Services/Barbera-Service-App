@@ -36,11 +36,11 @@ import retrofit2.Retrofit;
 
 public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
 
-    private List<BookingItem> bookingItemList;
+    private List<BookingModel> bookingItemList;
     private  Context context;
 
 
-    public BookingItemAdapter(List<BookingItem> booking, Context context){
+    public BookingItemAdapter(List<BookingModel> booking, Context context){
         this.bookingItemList = booking;
         this.context = context;
     }
@@ -55,26 +55,20 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
     @SuppressLint("SetTextI18n")
     @Override
     public void onBindViewHolder(@NonNull BookingItemAdapter.BookingItemHolder holder, int position) {
-        BookingItem bookingItem = bookingItemList.get(position);
-        SharedPreferences sharedPreferences = context.getSharedPreferences("ServiceList",Context.MODE_PRIVATE);
-        String services[] = bookingItem.getService().split(" ");
-        String Servicenames ="";
-        for(int i=0;i<services.length;i++){
-            Servicenames = Servicenames + sharedPreferences.getString(services[i],"")+",";
-        }
-        String time = convertTime(bookingItem.getTime());
+        BookingModel bookingItem = bookingItemList.get(position);
 
         holder.address.setText(bookingItem.getAddress());
-        holder.service.setText(Servicenames);
-        holder.amount.setText(bookingItem.getAmount());
-        holder.time.setText(time);
+        holder.service.setText(bookingItem.getSummary());
+        holder.amount.setText(bookingItem.getAmount()+"");
+        holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");
+        holder.distance.setText(bookingItem.getDistance()+"");
 
-        holder.start.setOnClickListener(v -> {
-            bookingItemList.remove(position);
-            notifyDataSetChanged();
-            updateAssigneeInDb(bookingItem.getName(),bookingItem.getService(),bookingItem.getTime(),bookingItem.getAddress(),bookingItem.getAmount(),
-                    bookingItem.getId(),bookingItem.getDate(),bookingItem.getContact());
-        });
+//        holder.start.setOnClickListener(v -> {
+//            bookingItemList.remove(position);
+//            notifyDataSetChanged();
+//            updateAssigneeInDb(bookingItem.getName(),bookingItem.getService(),bookingItem.getTime(),bookingItem.getAddress(),bookingItem.getAmount(),
+//                    bookingItem.getId(),bookingItem.getDate(),bookingItem.getContact());
+//        });
     }
 
     private void updateAssigneeInDb(String name, String service, int time, String address, String amount, int id,String date, String contact) {
@@ -133,6 +127,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         private TextView service;
         private TextView amount;
         private TextView time;
+        private TextView distance;
 //        private Button cancel;
         private Button start;
         public BookingItemHolder(@NonNull View itemView) {
@@ -142,32 +137,33 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
             amount = itemView.findViewById(R.id.amt);
 //            cancel = itemView.findViewById(R.id.cancel_button);
             time = itemView.findViewById(R.id.Time1);
-            start  = itemView.findViewById(R.id.accept_btn);
+            //start  = itemView.findViewById(R.id.accept_btn);
+            distance=itemView.findViewById(R.id.distance);
         }
     }
-    private String convertTime(int time) {
-        int hrs= time /100;
-        int hrs1 = hrs;
-        int min = time%100;
-        String Time="";
-        if(hrs>12){
-            hrs = hrs -12;
-            if(min == 0)
-                Time = min+"0 ";
-            else
-                Time = min+" ";
-        }else{
-            if(min == 0)
-                Time = min+"0 ";
-            else
-                Time = min+" ";
-        }
-        if(hrs1>11)
-            Time =Time+ "PM";
-        else
-            Time = Time +"AM";
-
-        Time = hrs+":"+ Time;
-        return Time;
-    }
+//    private String convertTime(int time) {
+//        int hrs= time /100;
+//        int hrs1 = hrs;
+//        int min = time%100;
+//        String Time="";
+//        if(hrs>12){
+//            hrs = hrs -12;
+//            if(min == 0)
+//                Time = min+"0 ";
+//            else
+//                Time = min+" ";
+//        }else{
+//            if(min == 0)
+//                Time = min+"0 ";
+//            else
+//                Time = min+" ";
+//        }
+//        if(hrs1>11)
+//            Time =Time+ "PM";
+//        else
+//            Time = Time +"AM";
+//
+//        Time = hrs+":"+ Time;
+//        return Time;
+//    }
 }

@@ -27,31 +27,23 @@ public class SplashActivity extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
+//        if(dbQueries.slideModelList.size()==0)
+//         dbQueries.loadslideModelList();
+//        if(FirebaseAuth.getInstance().getCurrentUser()!=null){
+//            whetherNewOrOldUser();
+//        }
+//        else
+        sendToSecondActivity();
+    }
+
+    private void sendToSecondActivity() {
         Handler handler=new Handler();
         handler.postDelayed(new Runnable() {
             @Override
             public void run() {
-                if(isLoggedIn()){
-                    sendToMainActivity();
-                }else {
-                    sendToCheckUserActivity();
-                }
+                startActivity(new Intent(SplashActivity.this,SecondScreen.class));
+                finish();
             }
         },3000);
-    }
-
-    private boolean isLoggedIn() {
-        return false;
-    }
-
-    private void sendToCheckUserActivity() {
-        Intent intent = new Intent(SplashActivity.this, CheckUser.class);
-        startActivity(intent);
-    }
-
-    private void sendToMainActivity(){
-        Intent intent=new Intent(SplashActivity.this,MainActivity.class);
-        startActivity(intent);
-        finish();
     }
 }

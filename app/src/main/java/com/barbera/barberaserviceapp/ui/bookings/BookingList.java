@@ -5,15 +5,14 @@ import com.google.gson.annotations.SerializedName;
 import java.util.List;
 
 public class BookingList {
+    @SerializedName("data")
+    List<BookingItem> list;
 
-    @SerializedName("user")
-    private List<BookingItem> bookingItemList;
-
-    public BookingList(List<BookingItem> bookingItemList) {
-        this.bookingItemList = bookingItemList;
+    public BookingList(List<BookingItem> list) {
+        this.list = list;
     }
 
-    public List<BookingItem> getBookingItemList() {
-        return bookingItemList;
+    public List<BookingItem> getList() {
+        return list;
     }
 }

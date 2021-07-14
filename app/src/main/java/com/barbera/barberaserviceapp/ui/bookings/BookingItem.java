@@ -1,89 +1,74 @@
 package com.barbera.barberaserviceapp.ui.bookings;
 
+import com.barbera.barberaserviceapp.Utils.ServiceItem;
 import com.google.gson.annotations.SerializedName;
 
-import java.sql.Time;
-import java.util.Date;
-
-import io.realm.Realm;
-import io.realm.RealmObject;
-
-public class BookingItem extends RealmObject {
-    @SerializedName("id")
-    private int id;
-    @SerializedName("name")
-    private String name;
+public class BookingItem {
+    @SerializedName("Timestamp")
+    private String timestamp;
+    @SerializedName("user_lat")
+    private double lat;
+    @SerializedName("user_lon")
+    private double lon;
+    @SerializedName("user_add")
+    private String add;
+    @SerializedName("distance")
+    private double distance;
     @SerializedName("service")
-    private String service;
+    private ServiceItem service;
+    @SerializedName("quantity")
+    private int quantity;
     @SerializedName("date")
     private String date;
-    @SerializedName("time")
-    private int time;
-    @SerializedName("address")
-    private  String address;
-    @SerializedName("amount")
-    private String amount;
-    @SerializedName("assignedTo")
-    private String assignee;
-    @SerializedName("status")
-    private int status;
-    @SerializedName("contact")
-    private String contact;
+    @SerializedName("slot")
+    private String slot;
 
-    public BookingItem(){
-
-    }
-
-    public BookingItem(int id,String name, String service, String date, int time, String address, String amount, String assignee, int status,String contact) {
-        this.id = id;
-        this.name = name;
+    public BookingItem(double lat, double lon, String add, double distance, ServiceItem service,String timestamp,
+                       int quantity,String date,String slot) {
+        this.lat = lat;
+        this.lon = lon;
+        this.add = add;
+        this.distance = distance;
         this.service = service;
-        this.date = date;
-        this.time = time;
-        this.address = address;
-        this.amount = amount;
-        this.assignee = assignee;
-        this.status = status;
-        this.contact = contact;
+        this.timestamp=timestamp;
+        this.quantity=quantity;
+        this.date=date;
+        this.slot=slot;
     }
 
-    public String getName() {
-        return name;
-    }
-
-    public String getService() {
-        return service;
+    public String getSlot() {
+        return slot;
     }
 
     public String getDate() {
         return date;
     }
 
-    public int getTime() {
-        return time;
+    public int getQuantity() {
+        return quantity;
     }
 
-    public String getAddress() {
-        return address;
+    public String getTimestamp() {
+        return timestamp;
     }
 
-    public String getAmount() {
-        return amount;
+    public double getLat() {
+        return lat;
     }
 
-    public String getAssignee() {
-        return assignee;
+    public double getLon() {
+        return lon;
     }
 
-    public int getStatus() {
-        return status;
+    public String getAdd() {
+        return add;
     }
 
-    public  String getContact(){ return contact;}
+    public double getDistance() {
+        return distance;
+    }
 
-    public int getId(){return  id;}
-
-    public void setStatus(int status) {
-        this.status = status;
+    public ServiceItem getService() {
+        return service;
     }
 }

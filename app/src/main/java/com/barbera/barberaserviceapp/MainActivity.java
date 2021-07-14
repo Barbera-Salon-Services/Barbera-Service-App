@@ -16,6 +16,7 @@ import android.view.MenuItem;
 
 import com.barbera.barberaserviceapp.ui.bookings.BookingFragment;
 import com.barbera.barberaserviceapp.ui.bookings.BookingItem;
+import com.barbera.barberaserviceapp.ui.bookings.BookingModel;
 import com.barbera.barberaserviceapp.ui.home.HomeFragment;
 import com.barbera.barberaserviceapp.ui.mybookings.MyBookingFragment;
 import com.barbera.barberaserviceapp.ui.profile.ProfileFragment;
@@ -31,14 +32,14 @@ import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
 
-    public static List<BookingItem> itemList;
+    public static List<BookingModel> itemList;
     public static  List<BookingItem> myBookingItemList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        itemList =new ArrayList<BookingItem>();
+        itemList =new ArrayList<BookingModel>();
         myBookingItemList = new ArrayList<BookingItem>();
 
         checkPermission();
@@ -54,7 +55,7 @@ public class MainActivity extends AppCompatActivity {
     private void getInfo() {
         SharedPreferences sharedPreferences = getSharedPreferences("ServiceChannel",MODE_PRIVATE);
         SharedPreferences.Editor editor = sharedPreferences.edit();
-        editor.putString("channel_name",);
+        editor.putString("channel_name","FS");
         editor.apply();
 
     }
@@ -70,7 +71,7 @@ public class MainActivity extends AppCompatActivity {
                 selectedFragment = new ProfileFragment();
                 break;
             case R.id.nav_mybookings:
-                selectedFragment = new MyBookingFragment();
+                selectedFragment = new BookingFragment();
         }
         getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, selectedFragment).commit();
         return true;

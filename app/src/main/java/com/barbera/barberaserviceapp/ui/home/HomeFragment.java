@@ -72,13 +72,13 @@ public class HomeFragment extends Fragment {
             startFS();
             switchCompat.setChecked(true);
         }
-        FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        holidays.setText(task.getResult().get("holidays").toString());
-                    }
-                });
+//        FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).get()
+//                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                    @Override
+//                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                        holidays.setText(task.getResult().get("holidays").toString());
+//                    }
+//                });
         trips.setText(sharedPreferences.getInt("trips",0)+"");
         //earnings.setText("Rs. "+sharedPreferences.getInt("payment",0));
         cancelled.setText(sharedPreferences.getInt("cancel",0)+"");

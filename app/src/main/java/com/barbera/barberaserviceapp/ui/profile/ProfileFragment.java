@@ -23,12 +23,17 @@ import androidx.fragment.app.Fragment;
 
 import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
+import com.barbera.barberaserviceapp.SecondScreen;
 import com.barbera.barberaserviceapp.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
+
+import retrofit2.Retrofit;
+
+import static android.content.Context.MODE_PRIVATE;
 
 public class ProfileFragment extends Fragment {
 
@@ -41,9 +46,9 @@ public class ProfileFragment extends Fragment {
     private  TextView trips;
     private Button items;
     private CardView logout;
-    private  CardView login;
+
     private int key =0;
-    private String profilename="";
+    private String profilename="",token;
     private SharedPreferences sharedPreferences;
 
     @Nullable
@@ -58,9 +63,11 @@ public class ProfileFragment extends Fragment {
        points =(TextView)view.findViewById(R.id.points);
        trips =(TextView)view.findViewById(R.id.trip);
        logout=(CardView)view.findViewById(R.id.logout);
-       login =(CardView)view.findViewById(R.id.login);
        items = view.findViewById(R.id.items);
-       sharedPreferences = getActivity().getSharedPreferences("UserInfo", Context.MODE_PRIVATE);
+       sharedPreferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
+
+        SharedPreferences preferences=getActivity().getSharedPreferences("Token",MODE_PRIVATE);
+        token = preferences.getString("token","no");
 
        refresh.setOnClickListener(v -> {
            key =1;
@@ -77,54 +84,53 @@ public class ProfileFragment extends Fragment {
     }
 
     private void displayProfile() {
-        if(FirebaseAuth.getInstance().getCurrentUser()==null){
-            login.setVisibility(View.VISIBLE);
+        if(token.equals("no")){
             Toast.makeText(getContext(),"User Not Logged In",Toast.LENGTH_SHORT).show();
-        }else if(sharedPreferences.getString("profilename","") == "" || key ==1){
-            final ProgressDialog progressDialog=new ProgressDialog(getContext());
-            progressDialog.setMessage("Fetching Details...");
-            progressDialog.show();
-            progressDialog.setCancelable(false);
-            key =0;
-            FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                @Override
-                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                    if(task.isSuccessful()){
-                        SharedPreferences.Editor editor =sharedPreferences.edit();
-                        profilename = task.getResult().get("name").toString();
-                        name.setText(profilename);
-//                        email.setText(task.getResult().get("email").toString());
-                        //phone.setText(task.getResult().get("phone").toString());
-                        //earnings.setText(task.getResult().get("earnings").toString());
-                        points.setText(task.getResult().get("points").toString());
-                        trips.setText(task.getResult().get("trips").toString());
-                        editor.putString("profilename",profilename);
-//                        editor.putString("email",task.getResult().get("email").toString());
-//                        editor.putString("phone",task.getResult().get("phone").toString());
-                        //editor.putString("earnings",task.getResult().get("earnings").toString());
-                        editor.putString("points",task.getResult().get("points").toString());
-                        editor.putString("trips",task.getResult().get("trips").toString());
-                        editor.commit();
-                        name.setVisibility(View.VISIBLE);
-//                        email.setVisibility(View.VISIBLE);
-//                        phone.setVisibility(View.VISIBLE);
-                        //earnings.setVisibility(View.VISIBLE);
-                        points.setVisibility(View.VISIBLE);
-                        trips.setVisibility(View.VISIBLE);
-                        logout.setVisibility(View.VISIBLE);
-                        progressDialog.dismiss();
-                    }
-                }
-            });
-        }else {
+        }
+//        else if(sharedPreferences.getString("profilename","") == "" || key ==1){
+//            final ProgressDialog progressDialog=new ProgressDialog(getContext());
+//            progressDialog.setMessage("Fetching Details...");
+//            progressDialog.show();
+//            progressDialog.setCancelable(false);
+//            key =0;
+//            FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
+//                    .get().addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
+//                @Override
+//                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
+//                    if(task.isSuccessful()){
+//                        SharedPreferences.Editor editor =sharedPreferences.edit();
+//                        profilename = task.getResult().get("name").toString();
+//                        name.setText(profilename);
+////                        email.setText(task.getResult().get("email").toString());
+//                        //phone.setText(task.getResult().get("phone").toString());
+//                        //earnings.setText(task.getResult().get("earnings").toString());
+//                        points.setText(task.getResult().get("points").toString());
+//                        trips.setText(task.getResult().get("trips").toString());
+//                        editor.putString("profilename",profilename);
+////                        editor.putString("email",task.getResult().get("email").toString());
+////                        editor.putString("phone",task.getResult().get("phone").toString());
+//                        //editor.putString("earnings",task.getResult().get("earnings").toString());
+//                        editor.putString("points",task.getResult().get("points").toString());
+//                        editor.putString("trips",task.getResult().get("trips").toString());
+//                        editor.commit();
+//                        name.setVisibility(View.VISIBLE);
+////                        email.setVisibility(View.VISIBLE);
+////                        phone.setVisibility(View.VISIBLE);
+//                        //earnings.setVisibility(View.VISIBLE);
+//                        points.setVisibility(View.VISIBLE);
+//                        trips.setVisibility(View.VISIBLE);
+//                        progressDialog.dismiss();
+//                    }
+//                }
+//            });
+//        }
+        else {
             name.setVisibility(View.VISIBLE);
 //            email.setVisibility(View.VISIBLE);
 //            phone.setVisibility(View.VISIBLE);
             //earnings.setVisibility(View.VISIBLE);
             points.setVisibility(View.VISIBLE);
             trips.setVisibility(View.VISIBLE);
-            logout.setVisibility(View.VISIBLE);
             name.setText(sharedPreferences.getString("profilename",""));
 //            email.setText(sharedPreferences.getString("email",""));
 //            phone.setText(sharedPreferences.getString("phone",""));
@@ -148,8 +154,11 @@ public class ProfileFragment extends Fragment {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
-                        FirebaseAuth.getInstance().signOut();
-                        startActivity(new Intent(getActivity(), LoginActivity.class));
+                        SharedPreferences preferences=getActivity().getSharedPreferences("Token",MODE_PRIVATE);
+                        SharedPreferences.Editor editor=preferences.edit();
+                        editor.putString("token","no");
+                        editor.apply();
+                        startActivity(new Intent(getActivity(), SecondScreen.class));
                         getActivity().finish();
                     }
                 });
@@ -160,14 +169,6 @@ public class ProfileFragment extends Fragment {
                 });
                 AlertDialog dialog=builder.create();
                 dialog.show();
-
-            }
-        });
-
-        login.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                startActivity(new Intent(getActivity(),LoginActivity.class));
             }
         });
     }
