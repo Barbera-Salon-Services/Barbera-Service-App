@@ -14,4 +14,10 @@
 		<item name="android:layout_marginRight">20dp</item>
 		<item name="android:paddingTop">40dp</item>
 	</style>
+
+	<style name="ProfilePage">
+		<item name="android:padding">10dp</item>
+		<item name="android:textColor">#807B7B</item>
+		<item name="backgroundColor">#00FFFFFF</item>
+	</style>
 </resources>
