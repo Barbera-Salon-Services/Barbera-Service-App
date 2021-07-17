@@ -5,13 +5,8 @@
     android:layout_height="match_parent">
 
     <androidx.cardview.widget.CardView
-        android:layout_width="0dp"
-        android:layout_height="0dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginBottom="70dp"
-        app:cardBackgroundColor="#70FFFFFF"
-        app:cardCornerRadius="20dp"
-        app:layout_constraintBottom_toBottomOf="@+id/bottom_navigation"
+        style="@style/profilePageCardView"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintDimensionRatio="1:2"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -47,7 +42,7 @@
 
             <TextView
                 android:layout_width="match_parent"
-                android:layout_height="30dp"
+                android:layout_height="wrap_content"
                 android:layout_marginBottom="50dp"
                 android:gravity="center"
                 android:hint="@string/user_name" />
@@ -64,10 +59,10 @@
                     android:src="@drawable/ic_outline_person_24" />
 
                 <Button
-                    style="@style/ProfilePage"
+                    style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="start"
+                    android:background="@color/Transparent"
                     android:text="@string/my_coupon" />
 
             </LinearLayout>
@@ -84,10 +79,10 @@
                     android:src="@drawable/ic_baseline_share_24" />
 
                 <Button
-                    style="@style/ProfilePage"
+                    style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="start"
+                    android:background="@color/Transparent"
                     android:text="@string/refer_earn" />
 
             </LinearLayout>
@@ -104,10 +99,10 @@
                     android:src="@drawable/ic_baseline_connect_without_contact_24" />
 
                 <Button
-                    style="@style/ProfilePage"
+                    style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="start"
+                    android:background="@color/Transparent"
                     android:text="@string/contact_us" />
 
             </LinearLayout>
@@ -124,10 +119,10 @@
                     android:src="@drawable/ic_outline_privacy_tip_24" />
 
                 <Button
-                    style="@style/ProfilePage"
+                    style="@style/ProfilePageButton"
                     android:layout_width="match_parent"
                     android:layout_height="40dp"
-                    android:gravity="start"
+                    android:background="@color/Transparent"
                     android:text="@string/user_privacy" />
 
             </LinearLayout>
@@ -151,10 +146,10 @@
                         android:src="@drawable/ic_baseline_about_us_24" />
 
                     <Button
-                        style="@style/ProfilePage"
+                        style="@style/ProfilePageButton"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:gravity="start"
+                        android:background="@color/Transparent"
                         android:text="@string/about_us" />
 
                 </LinearLayout>
@@ -171,10 +166,10 @@
                         android:src="@drawable/ic_baseline_logout_24" />
 
                     <Button
-                        style="@style/ProfilePage"
+                        style="@style/ProfilePageButton"
                         android:layout_width="match_parent"
                         android:layout_height="40dp"
-                        android:gravity="start"
+                        android:background="@color/Transparent"
                         android:text="@string/logout" />
 
                 </LinearLayout>
