@@ -4,13 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#75000000">
+    android:background="@drawable/user_privacy_bg">
 
     <ImageView
         android:id="@+id/img_privacy"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_centerHorizontal="true"
+        app:tint="@color/white"
         android:layout_marginTop="40dp"
         android:src="@drawable/ic_user_privacy" />
 
@@ -43,7 +44,7 @@
         android:layout_above="@id/footer"
         android:layout_below="@+id/doorstep_salon"
         android:layout_margin="10dp"
-        android:alpha="0.8"
+        app:cardBackgroundColor="#80000000"
         android:padding="20dp"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
@@ -54,6 +55,8 @@
             android:layout_height="wrap_content">
 
             <TextView
+                android:alpha="0.9"
+                android:textColor="@color/white"
                 android:id="@+id/user_policy_textview"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -75,7 +78,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_alignParentBottom="true"
-        android:alpha="0.8"
+        app:cardBackgroundColor="#80000000"
         app:cardCornerRadius="10dp"
         app:cardElevation="5dp"
         app:cardUseCompatPadding="true">
@@ -85,6 +88,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:paddingTop="10dp"
+            android:alpha="0.9"
             android:paddingBottom="10dp">
 
             <RelativeLayout
@@ -97,7 +101,9 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
-                    android:src="@drawable/ic_home" />
+                    android:src="@drawable/ic_home"
+                    app:tint="@color/white"
+                    android:alpha="1"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -105,6 +111,7 @@
                     android:layout_below="@id/img_home"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
                     android:text="Home" />
 
             </RelativeLayout>
@@ -120,6 +127,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
+                    app:tint="@color/white"
                     android:src="@drawable/ic_booking" />
 
                 <TextView
@@ -128,6 +136,7 @@
                     android:layout_below="@id/img_booking"
                     android:layout_centerHorizontal="true"
                     android:layout_marginTop="10dp"
+                    android:textColor="@color/white"
                     android:text="Booking" />
 
             </RelativeLayout>
@@ -144,6 +153,7 @@
                     android:layout_height="wrap_content"
                     android:layout_centerInParent="true"
                     android:layout_centerHorizontal="true"
+                    app:tint="@color/white"
                     android:src="@drawable/ic_person" />
 
                 <TextView
@@ -151,6 +161,7 @@
                     android:layout_height="wrap_content"
                     android:layout_below="@id/img_profile"
                     android:layout_centerHorizontal="true"
+                    android:textColor="@color/white"
                     android:layout_marginTop="10dp"
                     android:text="Profile" />
 

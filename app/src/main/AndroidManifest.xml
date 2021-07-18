@@ -16,7 +16,8 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.profile.ItemList"></activity>
+        <activity android:name=".HomeUi"></activity>
+        <activity android:name=".ui.profile.ItemList" />
         <activity android:name=".ui.CheckUser" />
         <activity android:name=".ui.servicedetails.Payments" />
         <activity android:name=".ui.servicedetails.VehicleDetails" />
@@ -33,14 +34,16 @@
         <activity
             android:name=".MainActivity"
             android:screenOrientation="portrait" />
+
         <service android:name=".NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".SecondScreen"
             android:screenOrientation="portrait" />
