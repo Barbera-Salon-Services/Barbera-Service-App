@@ -1,5 +1,6 @@
 package com.barbera.barberaserviceapp.network;
 
+import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.ui.bookings.BookingList;
 import com.barbera.barberaserviceapp.ui.service.ServiceItem;
 import com.barbera.barberaserviceapp.ui.service.ServiceList;
@@ -34,4 +35,12 @@ public interface JsonPlaceHolderApi {
 
     @GET("getbookbarb")
     Call<BookingList> getBookings(@Header("Authorization") String token);
+
+    @POST("acceptstartserv")
+    Call<Void> confirmStartOtp(@Body Register register,@Header("Authorization") String token);
+
+    @POST("acceptendserv")
+    Call<Void> confirmEndOtp(OtpItem otpItem, @Header("Authorization") String token);
+
+    //when notification comes, ill call the api for schedule and send a notification if within 1 hour
 }

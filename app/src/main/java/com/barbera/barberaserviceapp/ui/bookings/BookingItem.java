@@ -8,6 +8,8 @@ public class BookingItem {
     private String timestamp;
     @SerializedName("user_lat")
     private double lat;
+    @SerializedName("userId")
+    private String userId;
     @SerializedName("user_lon")
     private double lon;
     @SerializedName("user_add")

@@ -19,6 +19,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.barbera.barberaserviceapp.R;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstance;
+import com.barbera.barberaserviceapp.ui.service.ImageVerifyActivity;
 import com.barbera.barberaserviceapp.ui.service.ServiceActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
@@ -63,12 +64,19 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");
         holder.distance.setText(bookingItem.getDistance()+"");
 
-//        holder.start.setOnClickListener(v -> {
-//            bookingItemList.remove(position);
-//            notifyDataSetChanged();
-//            updateAssigneeInDb(bookingItem.getName(),bookingItem.getService(),bookingItem.getTime(),bookingItem.getAddress(),bookingItem.getAmount(),
-//                    bookingItem.getId(),bookingItem.getDate(),bookingItem.getContact());
-//        });
+        holder.start.setOnClickListener(v -> {
+//            counterId = bookingItem.getId();
+//            Intent intent = new Intent(context, ImageVerifyActivity.class);
+//            intent.putExtra("name",bookingItem.g());
+//            intent.putExtra("service",bookingItem.getService());
+//            intent.putExtra("time",bookingItem.getTime());
+//            intent.putExtra("address",bookingItem.getAddress());
+//            intent.putExtra("amount",bookingItem.getAmount());
+//            intent.putExtra("id",bookingItem.getId());
+//            intent.putExtra("date",bookingItem.getDate());
+//            intent.putExtra("contact",bookingItem.getContact());
+//            context.startActivity(intent);
+        });
     }
 
     private void updateAssigneeInDb(String name, String service, int time, String address, String amount, int id,String date, String contact) {
