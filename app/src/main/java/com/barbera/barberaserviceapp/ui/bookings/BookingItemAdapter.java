@@ -1,6 +1,7 @@
 package com.barbera.barberaserviceapp.ui.bookings;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -23,6 +24,7 @@ import com.barbera.barberaserviceapp.ui.service.ImageVerifyActivity;
 import com.barbera.barberaserviceapp.ui.service.ServiceActivity;
 import com.google.firebase.auth.FirebaseAuth;
 
+import java.io.Serializable;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
@@ -65,66 +67,14 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         holder.distance.setText(bookingItem.getDistance()+"");
 
         holder.start.setOnClickListener(v -> {
-//            counterId = bookingItem.getId();
-//            Intent intent = new Intent(context, ImageVerifyActivity.class);
-//            intent.putExtra("name",bookingItem.g());
-//            intent.putExtra("service",bookingItem.getService());
-//            intent.putExtra("time",bookingItem.getTime());
-//            intent.putExtra("address",bookingItem.getAddress());
-//            intent.putExtra("amount",bookingItem.getAmount());
-//            intent.putExtra("id",bookingItem.getId());
-//            intent.putExtra("date",bookingItem.getDate());
-//            intent.putExtra("contact",bookingItem.getContact());
-//            context.startActivity(intent);
+            Intent intent = new Intent(context,ServiceActivity.class);
+            intent.putExtra("userId",bookingItem.getUserId());
+            intent.putExtra("sidlist",(Serializable)bookingItem.getSidlist());
+            intent.putExtra("amount",bookingItem.getAmount());
+            ((Activity)context).finish();
+            context.startActivity(intent);
         });
     }
-
-    private void updateAssigneeInDb(String name, String service, int time, String address, String amount, int id,String date, String contact) {
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        final ProgressDialog progressDialog=new ProgressDialog(context);
-        progressDialog.setMessage("Adding Booking!!");
-        progressDialog.show();
-        progressDialog.setCancelable(true);
-        Call<String> call = jsonPlaceHolderApi.updateAssignee(name,service,time,address,amount, FirebaseAuth.getInstance().getCurrentUser().getUid(),"update",1,id,date,contact);
-//        call.enqueue(new Callback<BookingList>() {
-//            @Override
-//            public void onResponse(Call<BookingList> call, Response<BookingList> response) {
-//                if(response.code() == 200){
-//                    Toast.makeText(context,"Added booking",Toast.LENGTH_SHORT).show();
-//                }else {
-//                    Toast.makeText(context,"Something is wrong",Toast.LENGTH_SHORT).show();
-//                }
-//                progressDialog.dismiss();
-//            }
-//
-//            @Override
-//            public void onFailure(Call<BookingList> call, Throwable t) {
-////                Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show();
-//                Toast.makeText(context,"Added booking",Toast.LENGTH_SHORT).show();
-//                progressDialog.dismiss();
-//            }
-//        });
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.code() == 200){
-                    Toast.makeText(context,"Added booking",Toast.LENGTH_SHORT).show();
-                }else {
-                    Toast.makeText(context,"Something is wrong",Toast.LENGTH_SHORT).show();
-                }
-                progressDialog.dismiss();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-//                Toast.makeText(context,"Something went wrong",Toast.LENGTH_SHORT).show();
-                Toast.makeText(context,"Added booking",Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-            }
-        });
-    }
-
     @Override
     public int getItemCount() {
         return bookingItemList.size();
@@ -136,42 +86,14 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         private TextView amount;
         private TextView time;
         private TextView distance;
-//        private Button cancel;
         private Button start;
         public BookingItemHolder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.add);
             service = itemView.findViewById(R.id.service);
             amount = itemView.findViewById(R.id.amt);
-//            cancel = itemView.findViewById(R.id.cancel_button);
             time = itemView.findViewById(R.id.Time1);
-            //start  = itemView.findViewById(R.id.accept_btn);
             distance=itemView.findViewById(R.id.distance);
         }
     }
-//    private String convertTime(int time) {
-//        int hrs= time /100;
-//        int hrs1 = hrs;
-//        int min = time%100;
-//        String Time="";
-//        if(hrs>12){
-//            hrs = hrs -12;
-//            if(min == 0)
-//                Time = min+"0 ";
-//            else
-//                Time = min+" ";
-//        }else{
-//            if(min == 0)
-//                Time = min+"0 ";
-//            else
-//                Time = min+" ";
-//        }
-//        if(hrs1>11)
-//            Time =Time+ "PM";
-//        else
-//            Time = Time +"AM";
-//
-//        Time = hrs+":"+ Time;
-//        return Time;
-//    }
 }

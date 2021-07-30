@@ -26,7 +26,7 @@ public class BookingItem {
     private String slot;
 
     public BookingItem(double lat, double lon, String add, double distance, ServiceItem service,String timestamp,
-                       int quantity,String date,String slot) {
+                       int quantity,String date,String slot,String userId) {
         this.lat = lat;
         this.lon = lon;
         this.add = add;
@@ -36,6 +36,11 @@ public class BookingItem {
         this.quantity=quantity;
         this.date=date;
         this.slot=slot;
+        this.userId=userId;
+    }
+
+    public String getUserId() {
+        return userId;
     }
 
     public String getSlot() {

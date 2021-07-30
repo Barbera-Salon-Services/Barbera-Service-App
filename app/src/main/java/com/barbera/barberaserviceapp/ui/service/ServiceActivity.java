@@ -2,6 +2,8 @@ package com.barbera.barberaserviceapp.ui.service;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
+import android.content.Context;
+import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.CountDownTimer;
@@ -16,9 +18,11 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 
 import com.barbera.barberaserviceapp.R;
+import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RCI_otp;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstance;
+import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBooking;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -26,9 +30,11 @@ import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Date;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 
@@ -43,29 +49,19 @@ public class ServiceActivity extends AppCompatActivity {
     private EditText endotp;
     private CardView startOtpBtn;
     private  CardView endOtpBtn;
-    private String name;
-    private String start;
-    private String end;
-    private String service;
-    private int time;
-    private String address;
-    private String amount;
-    private int id;
-    private String date;
-    private String contact;
+    private String token,userId;
     private TextView timer;
     private String[] ch;
     private String startdt,enddt,starttime,endtime;
-    private FirebaseFirestore firestore;
-
+    private List<String> sidlist=new ArrayList<>();
     private CountDownTimer countDownTimer;
     private long TimeLeftInMil;
     private long totalTime;
+    private int amount;
     public static boolean timerRunning = false;
     private long endTimer;
-
-    private SharedPreferences sharedPreferences;
-    private SharedPreferences sharedPreferences1;
+    private SharedPreferences sharedPreferences1,sharedPreferences;
+    private JsonPlaceHolderApi jsonPlaceHolderApi;
     private SharedPreferences.Editor editor;
 
     @SuppressLint("CommitPrefEdits")
@@ -75,159 +71,122 @@ public class ServiceActivity extends AppCompatActivity {
         setContentView(R.layout.activity_service);
 
         sharedPreferences=getSharedPreferences("ServiceInfo",MODE_PRIVATE);
-        editor = sharedPreferences.edit();
+        editor=sharedPreferences.edit();
+        Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
+        jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+        SharedPreferences preferences = getSharedPreferences("Token", Context.MODE_PRIVATE);
+        token = preferences.getString("token", "no");
+
+        Intent intent= getIntent();
+        sidlist= (List<String>) intent.getSerializableExtra("sidlist");
+        userId=intent.getStringExtra("userId");
+        amount=intent.getIntExtra("amount",0);
+
         startotp = findViewById(R.id.editText);
-        timer= findViewById(R.id.timer);
+        timer = findViewById(R.id.timer);
         endotp = findViewById(R.id.editText1);
         startOtpBtn = findViewById(R.id.otp);
         endOtpBtn = findViewById(R.id.otp1);
 
         assignServiceTimer();
 
-        name= Objects.requireNonNull(getIntent().getExtras()).getString("name");
-        service = getIntent().getExtras().getString("service");
-        time = getIntent().getExtras().getInt("time");
-        address = getIntent().getExtras().getString("address");
-        amount = getIntent().getExtras().getString("amount");
-        id= getIntent().getExtras().getInt("id");
-        date =getIntent().getExtras().getString("date");
-        contact = getIntent().getExtras().getString("contact");
-
-        ch = service.split(" ");
-        firestore=  FirebaseFirestore.getInstance();
-        firestore.collection("Users").document(date).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            String sd = "";
-//
-                            try{
-                            sd= task.getResult().get("startOtp").toString();
-                            }catch (Exception e){
-                                Toast.makeText(getApplicationContext(),"Ask Customer to start Service",Toast.LENGTH_SHORT).show();
-                            }
-                            start = sd;
-//                            Toast.makeText(getApplicationContext(),"FSS"+start,Toast.LENGTH_SHORT).show();
-                        }
-                    }
-                });
-
-        firestore=  FirebaseFirestore.getInstance();
-        firestore.collection("Users").document(date).get()
-                .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                    @Override
-                    public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                        if(task.isSuccessful()){
-                            try{
-                            end = task.getResult().get("endOtp").toString();
-                            }catch (Exception e){
-
-                            }
-                        }
-                    }
-                });
-
-
         startOtpBtn.setOnClickListener(v -> {
             String otpentered = startotp.getText().toString();
-//            startOtpBtn.setEnabled(false);
-
-            if (start != null) {
-                if (otpentered.equals(start)) {
-                    startotp.setVisibility(View.INVISIBLE);
-                    startOtpBtn.setVisibility(View.INVISIBLE);
-                    timer.setVisibility(View.VISIBLE);
-                    endotp.setVisibility(View.VISIBLE);
-                    endOtpBtn.setVisibility(View.VISIBLE);
-                    Date today = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                    startdt = format.format(today);
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
-                    starttime=mdformat.format(calendar.getTime());
-                    Toast.makeText(getApplicationContext(),startdt+""+starttime,Toast.LENGTH_SHORT).show();
-                    startTimer();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Otp!!", Toast.LENGTH_SHORT).show();
-                    firestore.collection("Users").document(date).get()
-                            .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                                @Override
-                                public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                    if(task.isSuccessful()){
-                                        String sd = "";
-//
-                                        try{
-                                            sd= task.getResult().get("startOtp").toString();
-                                        }catch (Exception e){
-                                            Toast.makeText(getApplicationContext(),"Ask Customer to start Service",Toast.LENGTH_SHORT).show();
-                                        }
-                                        start = sd;
-//                            Toast.makeText(getApplicationContext(),"FSS"+start,Toast.LENGTH_SHORT).show();
-                                    }
-                                }
-                            });
+            Call<Success> call = jsonPlaceHolderApi.confirmStartOtp(new OtpItem(otpentered, null, null), "Bearer " + token);
+            call.enqueue(new Callback<Success>() {
+                @Override
+                public void onResponse(Call<Success> call, Response<Success> response) {
+                    if (response.code() == 200) {
+                        startotp.setVisibility(View.INVISIBLE);
+                        startOtpBtn.setVisibility(View.INVISIBLE);
+                        timer.setVisibility(View.VISIBLE);
+                        endotp.setVisibility(View.VISIBLE);
+                        endOtpBtn.setVisibility(View.VISIBLE);
+                        Date today = new Date();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                        startdt = format.format(today);
+                        Calendar calendar = Calendar.getInstance();
+                        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+                        starttime = mdformat.format(calendar.getTime());
+                        //Toast.makeText(getApplicationContext(),startdt+""+starttime,Toast.LENGTH_SHORT).show();
+                        startTimer();
+                    } else {
+                        Toast.makeText(getApplicationContext(), "Wrong otp entered", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            } else {
-                Toast.makeText(getApplicationContext(), "Ask Customer to start Service", Toast.LENGTH_SHORT).show();
-            }
+
+                @Override
+                public void onFailure(Call<Success> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
 
         endOtpBtn.setOnClickListener(v -> {
-//            startOtpBtn.setEnabled(false);
+            startOtpBtn.setEnabled(false);
             String otp2 = endotp.getText().toString();
-            if (end != null) {
-                if (otp2.equals(end)) {
-                    Date today = new Date();
-                    SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                    enddt = format.format(today);
-                    Calendar calendar = Calendar.getInstance();
-                    SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
-                    endtime=mdformat.format(calendar.getTime());
-                    endotp.getText().clear();
-                    Toast.makeText(getApplicationContext(),enddt+""+endtime,Toast.LENGTH_SHORT).show();
-                    Retrofit retrofit= RCI_otp.getRetrofiInstance();
-                    JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-                    ServiceItem serviceItem=new ServiceItem(FirebaseAuth.getInstance().getUid(),startdt,enddt,"0",date,service);
-                    Call<ServiceItem> call= jsonPlaceHolderApi.updateService(serviceItem);
-                    call.enqueue(new Callback<ServiceItem>() {
-                        @Override
-                        public void onResponse(Call<ServiceItem> call, Response<ServiceItem> response) {
-                            if(response.code()==200){
-                                //Toast.makeText("")
-                            }
-                            else{
-
-                            }
+            Call<Success> call = jsonPlaceHolderApi.confirmEndOtp(new OtpItem(otp2, sidlist, userId), "Bearer " + token);
+            call.enqueue(new Callback<Success>() {
+                @Override
+                public void onResponse(Call<Success> call, Response<Success> response) {
+                    if(response.code()==200){
+                        Date today = new Date();
+                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+                        enddt = format.format(today);
+                        Calendar calendar = Calendar.getInstance();
+                        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+                        endtime = mdformat.format(calendar.getTime());
+                        endotp.getText().clear();
+                        calculateTime();
+                        int amt = amount;
+                        int pay= sharedPreferences.getInt("payment",0);
+                        int trip= sharedPreferences.getInt("trips",0);
+                        int points = sharedPreferences.getInt("points",0);
+                        editor.putInt("payment",pay+amt);
+                        editor.putInt("trips",trip+1);
+                        if(trip>=3 && trip<5){
+                            points = points+5;
+                            editor.putInt("points",points);
                         }
-
-                        @Override
-                        public void onFailure(Call<ServiceItem> call, Throwable t) {
-
+                        else if(trip>=5 && trip<7){
+                            points += 10;
+                            editor.putInt("points",points);
                         }
-                    });
-                    showpayment();
-                } else {
-                    Toast.makeText(getApplicationContext(), "Wrong Otp!!", Toast.LENGTH_SHORT).show();
+                        else if(trip>=7 && trip<10){
+                            points+=25;
+                            editor.putInt("points",points+25);
+                        }
+                        else if(trip>=10){
+                            points+=50;
+                            editor.putInt("points",points);
+                        }
+                        else {
+                            points+=2;
+                            editor.putInt("points", points);
+                        }
+                        editor.commit();
+                        int finalPoints = points;
+                        timerRunning =false;
+                        TimeLeftInMil = 0;
+                        endTimer = 0;
+                        SharedPreferences prefs = getSharedPreferences("LiveTimer", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = prefs.edit();
+                        editor.putLong("millisLeft", TimeLeftInMil);
+                        editor.putBoolean("timerRunning", timerRunning);
+                        editor.putLong("endTime", endTimer);
+                        editor.apply();
+                    }
+                    else{
+                        Toast.makeText(getApplicationContext(), "Wrong otp entered", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            } else {
-                Toast.makeText(getApplicationContext(),"Ask Customer to end service",Toast.LENGTH_SHORT).show();
-                firestore.collection("Users").document(date).get()
-                        .addOnCompleteListener(new OnCompleteListener<DocumentSnapshot>() {
-                            @Override
-                            public void onComplete(@NonNull Task<DocumentSnapshot> task) {
-                                if(task.isSuccessful()){
-                                    try{
-                                        end = task.getResult().get("endOtp").toString();
-                                    }catch (Exception e){
 
-                                    }
-                                }
-                            }
-                        });
-            }
+                @Override
+                public void onFailure(Call<Success> call, Throwable t) {
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
         });
-        calculateTime();
     }
 
     @Override
@@ -263,10 +222,6 @@ public class ServiceActivity extends AppCompatActivity {
         editor.putBoolean("timerRunning", timerRunning);
         editor.putLong("endTime", endTimer);
         editor.apply();
-
-//        if(countDownTimer!=null){
-//            countDownTimer.cancel();
-//        }
     }
 
     private void calculateTime() {
@@ -307,103 +262,34 @@ public class ServiceActivity extends AppCompatActivity {
 
     }
 
-    private void showpayment() {
-        final AlertDialog.Builder builder = new AlertDialog.Builder(ServiceActivity.this);
-        builder.setMessage("Receive Payment of Rs."+amount);
-        builder.setIcon(R.drawable.logo);
-
-        int amt = Integer.parseInt(amount);
-
-        builder.setPositiveButton("Paid", (dialog, which) -> {
-            int pay= sharedPreferences.getInt("payment",0);
-            int trip= sharedPreferences.getInt("trips",0);
-            int points = sharedPreferences.getInt("points",0);
-            editor.putInt("payment",pay+amt);
-            editor.putInt("trips",trip+1);
-            if(trip>=3 && trip<5){
-                points = points+5;
-                editor.putInt("points",points);
-            }
-            else if(trip>=5 && trip<7){
-                points += 10;
-                editor.putInt("points",points);
-            }
-            else if(trip>=7 && trip<10){
-                points+=25;
-                editor.putInt("points",points+25);
-            }
-            else if(trip>=10){
-                points+=50;
-                editor.putInt("points",points);
-            }
-            else {
-                points+=2;
-                editor.putInt("points", points);
-            }
-            editor.commit();
-            int finalPoints = points;
-            FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                    .get().addOnCompleteListener(task -> {
-                        int e = Integer.parseInt(task.getResult().get("earnings").toString())+Integer.parseInt(amount);
-                        int p = Integer.parseInt(task.getResult().get("points").toString())+ finalPoints;
-                        int t =Integer.parseInt(task.getResult().get("trips").toString())+1;
-
-                Map<String,Object> user=new HashMap<>();
-                user.put("earnings",e+"");
-                user.put("points",p+"");
-                user.put("trips",t+"");
-                user.put("timeTaken",TimeLeftInMil*1000+" sec");
-                FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid())
-                        .update(user).addOnCompleteListener(task1 -> {
-
-                        });
-            });
-            updateInDb(name,service,time,address,amount,id,date,contact);
-            dialog.dismiss();
-            timerRunning =false;
-            TimeLeftInMil = 0;
-            endTimer = 0;
-            SharedPreferences prefs = getSharedPreferences("LiveTimer", MODE_PRIVATE);
-            SharedPreferences.Editor editor = prefs.edit();
-            editor.putLong("millisLeft", TimeLeftInMil);
-            editor.putBoolean("timerRunning", timerRunning);
-            editor.putLong("endTime", endTimer);
-            editor.apply();
-        });
-        builder.setNegativeButton("Not Paid", (dialog, which) -> dialog.dismiss());
-
-        AlertDialog dialog = builder.create();
-        dialog.show();
-
-    }
-    private void updateInDb(String name, String service, int time, String address, String amount, int id, String date, String contact) {
-        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
-        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
-        final ProgressDialog progressDialog=new ProgressDialog(ServiceActivity.this);
-        progressDialog.setMessage("Ending Service Please wait ....!!");
-        progressDialog.show();
-        progressDialog.setCancelable(true);
-        Call<String> call = jsonPlaceHolderApi.updateAssignee(name,service,time,address,amount,"done","update",2,id,date,contact);
-        call.enqueue(new Callback<String>() {
-            @Override
-            public void onResponse(Call<String> call, Response<String> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
-                    progressDialog.dismiss();
-                }
-                Toast.makeText(getApplicationContext(),"NOt Success",Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-                finish();
-            }
-
-            @Override
-            public void onFailure(Call<String> call, Throwable t) {
-                Toast.makeText(getApplicationContext(),"N Success",Toast.LENGTH_SHORT).show();
-                progressDialog.dismiss();
-                finish();
-            }
-        });
-    }
+//    private void updateInDb(String name, String service, int time, String address, String amount, int id, String date, String contact) {
+//        Retrofit retrofit = RetrofitClientInstance.getRetrofitInstance();
+//        JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+//        final ProgressDialog progressDialog=new ProgressDialog(ServiceActivity.this);
+//        progressDialog.setMessage("Ending Service Please wait ....!!");
+//        progressDialog.show();
+//        progressDialog.setCancelable(true);
+//        Call<String> call = jsonPlaceHolderApi.updateAssignee(name,service,time,address,amount,"done","update",2,id,date,contact);
+//        call.enqueue(new Callback<String>() {
+//            @Override
+//            public void onResponse(Call<String> call, Response<String> response) {
+//                if(response.isSuccessful()){
+//                    Toast.makeText(getApplicationContext(),"Success",Toast.LENGTH_SHORT).show();
+//                    progressDialog.dismiss();
+//                }
+//                Toast.makeText(getApplicationContext(),"NOt Success",Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//                finish();
+//            }
+//
+//            @Override
+//            public void onFailure(Call<String> call, Throwable t) {
+//                Toast.makeText(getApplicationContext(),"N Success",Toast.LENGTH_SHORT).show();
+//                progressDialog.dismiss();
+//                finish();
+//            }
+//        });
+//    }
 
     private void assignServiceTimer() {
         sharedPreferences1 = getSharedPreferences("Timer",MODE_PRIVATE);

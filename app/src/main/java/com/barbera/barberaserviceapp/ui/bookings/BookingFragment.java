@@ -56,7 +56,6 @@ public class BookingFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view=inflater.inflate(R.layout.fragment_bookings,container,false);
-
         toolbar= view.findViewById(R.id.tool);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
 
@@ -66,10 +65,10 @@ public class BookingFragment extends Fragment {
 
         if(itemList.size() != 0 ){
             attach_adapter();
-        }else {
+        }
+        else {
             getBookingList();
         }
-
         return view;
     }
 
@@ -96,14 +95,14 @@ public class BookingFragment extends Fragment {
                     return;
                 }
                 List<BookingItem> bookingList = response.body().getList();
-                
                 if(bookingList.size()==0){
                     Toast.makeText(getContext(),"No bookings made",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }else{
                     int i = 0, amount = 0;
-                    String summary = "", date = "", slot = "", timestamp = "",address="";
+                    String summary = "", date = "", slot = "", timestamp = "",address="",userId="";
                     double distance=0;
+                    List<String> sidlist=new ArrayList<>();
                     for(BookingItem bookingItem: bookingList){
                         if (i == 0) {
                             String name = bookingItem.getService().getName();
@@ -113,11 +112,12 @@ public class BookingFragment extends Fragment {
                             summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
                             amount += (bookingItem.getQuantity()*bookingItem.getService().getPrice());
                             timestamp += bookingItem.getTimestamp();
-                            //Log.d("timestamp",timestamp);
+                            sidlist.add(bookingItem.getService().getId());
                             date = bookingItem.getDate();
                             slot = bookingItem.getSlot();
                             distance=bookingItem.getDistance();
                             address=bookingItem.getAdd();
+                            userId=bookingItem.getUserId();
                             i++;
                         } else {
                             if (bookingItem.getTimestamp().equals(timestamp)) {
@@ -133,9 +133,10 @@ public class BookingFragment extends Fragment {
                                 timestamp += bookingItem.getTimestamp();
                                 distance=bookingItem.getDistance();
                                 address=bookingItem.getAdd();
+                                sidlist.add(bookingItem.getService().getId());
                             } else {
                                 //Log.d("timestamp",timestamp);
-                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance));
+                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist));
                                 date = bookingItem.getDate();
                                 slot = bookingItem.getSlot();
                                 summary = "";
@@ -150,10 +151,13 @@ public class BookingFragment extends Fragment {
                                 timestamp += bookingItem.getTimestamp();
                                 distance=bookingItem.getDistance();
                                 address=bookingItem.getAdd();
+                                userId=bookingItem.getUserId();
+                                sidlist=new ArrayList<>();
+                                sidlist.add(bookingItem.getService().getId());
                             }
                         }
                     }
-                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance));
+                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist));
                     progressDialog.dismiss();
                     attach_adapter();
 //                    addToLocalDb();

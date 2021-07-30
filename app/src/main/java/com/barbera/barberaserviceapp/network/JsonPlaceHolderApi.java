@@ -4,6 +4,7 @@ import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.ui.bookings.BookingList;
 import com.barbera.barberaserviceapp.ui.service.ServiceItem;
 import com.barbera.barberaserviceapp.ui.service.ServiceList;
+import com.barbera.barberaserviceapp.ui.service.Success;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -14,16 +15,6 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface JsonPlaceHolderApi {
-    @POST("exec")
-    Call<ServiceItem> updateService(@Body ServiceItem  serviceItem);
-
-    @GET("exec")
-    Call<BookingList> getBookings();
-
-    @POST("exec")
-    Call<String> updateAssignee(@Query("name") String name, @Query("service")String service, @Query("time")int Time, @Query("address") String address
-    , @Query("amount")String amount,@Query("assignedTo") String assignee,@Query("action")String action,@Query("status")int status,@Query("id")int id, @Query("date")String date, @Query("contact")String contact);
-
     @POST("loginphone")
     Call<Register> getToken(@Body Register register);
 
@@ -37,10 +28,10 @@ public interface JsonPlaceHolderApi {
     Call<BookingList> getBookings(@Header("Authorization") String token);
 
     @POST("acceptstartserv")
-    Call<Void> confirmStartOtp(@Body Register register,@Header("Authorization") String token);
+    Call<Success> confirmStartOtp(@Body OtpItem otpItem, @Header("Authorization") String token);
 
     @POST("acceptendserv")
-    Call<Void> confirmEndOtp(OtpItem otpItem, @Header("Authorization") String token);
+    Call<Success> confirmEndOtp(@Body OtpItem otpItem, @Header("Authorization") String token);
 
     //when notification comes, ill call the api for schedule and send a notification if within 1 hour
 }
