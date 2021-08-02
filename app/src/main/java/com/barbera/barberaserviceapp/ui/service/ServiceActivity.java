@@ -22,7 +22,9 @@ import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RCI_otp;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstance;
+import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBarber;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBooking;
+import com.barbera.barberaserviceapp.ui.bookings.BookingFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -72,7 +74,7 @@ public class ServiceActivity extends AppCompatActivity {
 
         sharedPreferences=getSharedPreferences("ServiceInfo",MODE_PRIVATE);
         editor=sharedPreferences.edit();
-        Retrofit retrofit = RetrofitClientInstanceBooking.getRetrofitInstance();
+        Retrofit retrofit = RetrofitClientInstanceBarber.getRetrofitInstance();
         jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
         SharedPreferences preferences = getSharedPreferences("Token", Context.MODE_PRIVATE);
         token = preferences.getString("token", "no");
@@ -92,7 +94,7 @@ public class ServiceActivity extends AppCompatActivity {
 
         startOtpBtn.setOnClickListener(v -> {
             String otpentered = startotp.getText().toString();
-            Call<Success> call = jsonPlaceHolderApi.confirmStartOtp(new OtpItem(otpentered, null, null), "Bearer " + token);
+            Call<Success> call = jsonPlaceHolderApi.confirmStartOtp(new OtpItem(otpentered, sidlist, userId), "Bearer " + token);
             call.enqueue(new Callback<Success>() {
                 @Override
                 public void onResponse(Call<Success> call, Response<Success> response) {
@@ -368,5 +370,11 @@ public class ServiceActivity extends AppCompatActivity {
         editor1.putInt("72",40);
         editor1.commit();
 
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        //startActivity(new Intent(ServiceActivity.this, BookingFragment.class));
     }
 }

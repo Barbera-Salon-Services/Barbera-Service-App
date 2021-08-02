@@ -17,6 +17,7 @@ import io.realm.Realm;
 
 public class ServiceApplication extends Application {
     public static final String ID ="live location";
+    public static final String SID="schedule";
     public static PubNub pubnub;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -119,6 +120,13 @@ public class ServiceApplication extends Application {
             );
             NotificationManager manager = getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
+            NotificationChannel scheduleChannel = new NotificationChannel(
+                    SID,
+                    "Schedule Channel",
+                    NotificationManager.IMPORTANCE_DEFAULT
+            );
+            NotificationManager manager1 = getSystemService(NotificationManager.class);
+            manager1.createNotificationChannel(scheduleChannel);
         }
     }
 

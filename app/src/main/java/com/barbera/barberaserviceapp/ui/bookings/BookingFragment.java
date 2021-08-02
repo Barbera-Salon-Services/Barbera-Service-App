@@ -112,7 +112,7 @@ public class BookingFragment extends Fragment {
                             summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
                             amount += (bookingItem.getQuantity()*bookingItem.getService().getPrice());
                             timestamp += bookingItem.getTimestamp();
-                            sidlist.add(bookingItem.getService().getId());
+                            sidlist.add(bookingItem.getServiceId());
                             date = bookingItem.getDate();
                             slot = bookingItem.getSlot();
                             distance=bookingItem.getDistance();
@@ -133,7 +133,7 @@ public class BookingFragment extends Fragment {
                                 timestamp += bookingItem.getTimestamp();
                                 distance=bookingItem.getDistance();
                                 address=bookingItem.getAdd();
-                                sidlist.add(bookingItem.getService().getId());
+                                sidlist.add(bookingItem.getServiceId());
                             } else {
                                 //Log.d("timestamp",timestamp);
                                 itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist));
@@ -153,7 +153,7 @@ public class BookingFragment extends Fragment {
                                 address=bookingItem.getAdd();
                                 userId=bookingItem.getUserId();
                                 sidlist=new ArrayList<>();
-                                sidlist.add(bookingItem.getService().getId());
+                                sidlist.add(bookingItem.getServiceId());
                             }
                         }
                     }

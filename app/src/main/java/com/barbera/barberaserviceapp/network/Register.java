@@ -49,15 +49,13 @@ public class Register {
         this.latitude=latitude;
         this.longitude=longitude;
     }
-    public Register(String phone, String otp, String email, String name, String password,
-                    String address) {
-        this.phone = phone;
-        this.otp = otp;
-        this.email = email;
-        this.name = name;
-        this.password = password;
+
+    public Register(double latitude, double longitude, String address) {
+        this.latitude = latitude;
+        this.longitude = longitude;
         this.address = address;
     }
+
     public Register(String otp){
         this.otp=otp;
     }

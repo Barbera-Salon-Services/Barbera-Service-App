@@ -199,6 +199,12 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     editor.putString("token", register.getToken());
                     editor.apply();
+                    FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
+                        @Override
+                        public void onSuccess(Void unused) {
+
+                        }
+                    });
                     Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
                     startActivity(intent);
                 } else {
@@ -235,34 +241,28 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private void sendfVerificationCode() {
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi.class);
-        FirebaseMessaging.getInstance().subscribeToTopic(phoneNumber.getText().toString()).addOnSuccessListener(new OnSuccessListener<Void>() {
-            @Override
-            public void onSuccess(Void unused) {
-
-            }
-        });
         Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumber.getText().toString(), null, null, null, null, null, null, null, 0.0, 0.0));
         call.enqueue(new Callback<Register>() {
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
                     Register register = response.body();
-                    final Runnable runnable = new Runnable() {
-                        @Override
-                        public void run() {
-                            SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
+//                    final Runnable runnable = new Runnable() {
+//                        @Override
+//                        public void run() {
+                            //SharedPreferences sharedPreferences=getSharedPreferences("Notification",MODE_PRIVATE);
 
                             tempToken = register.getToken();
                             progressBar.setVisibility(View.INVISIBLE);
                             veri_code.setVisibility(View.VISIBLE);
                             //Toast.makeText(getApplicationContext(),sharedPreferences.getString("notif",""),Toast.LENGTH_SHORT).show();
-                            veri_code.setText(sharedPreferences.getString("notif",""));
+                            //veri_code.setText(sharedPreferences.getString("notif",""));
                             continue_to_signup.setVisibility(View.VISIBLE);
-                        }
-                    };
-                    final Handler h = new Handler();
-                    h.removeCallbacks(runnable);
-                    h.postDelayed(runnable, 2000);
+//                        }
+//                    };
+//                    final Handler h = new Handler();
+//                    h.removeCallbacks(runnable);
+//                    h.postDelayed(runnable, 2000);
                 } else {
                     Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
                 }

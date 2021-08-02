@@ -24,6 +24,7 @@ import androidx.fragment.app.Fragment;
 
 import com.barbera.barberaserviceapp.LiveLocationService;
 import com.barbera.barberaserviceapp.R;
+import com.barbera.barberaserviceapp.ScheduleService;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -91,6 +92,8 @@ public class HomeFragment extends Fragment {
             }else{
                 Intent serviceIntent = new Intent(getContext(), LiveLocationService.class);
                 getActivity().stopService(serviceIntent);
+                Intent scheduleIntent= new Intent(getContext(), ScheduleService.class);
+                getActivity().stopService(scheduleIntent);
                 editor.putBoolean("ischecked",false);
             }
             editor.commit();
@@ -103,6 +106,8 @@ public class HomeFragment extends Fragment {
     private void startFS() {
         Intent serviceIntent = new Intent(getContext(), LiveLocationService.class);
         ContextCompat.startForegroundService(getContext(), serviceIntent);
+        Intent scheduleIntent= new Intent(getContext(), ScheduleService.class);
+        ContextCompat.startForegroundService(getContext(),scheduleIntent);
     }
 
     @Override

@@ -59,6 +59,7 @@
         </activity>
 
         <service android:name=".LiveLocationService" />
+        <service android:name=".ScheduleService"/>
     </application>
 
 </manifest>

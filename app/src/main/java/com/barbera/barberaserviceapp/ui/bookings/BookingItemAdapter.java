@@ -94,6 +94,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
             amount = itemView.findViewById(R.id.amt);
             time = itemView.findViewById(R.id.Time1);
             distance=itemView.findViewById(R.id.distance);
+            start=itemView.findViewById(R.id.start);
         }
     }
 }

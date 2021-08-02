@@ -5,6 +5,8 @@ import android.app.PendingIntent;
 import android.app.Service;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.location.Address;
+import android.location.Geocoder;
 import android.location.Location;
 import android.os.IBinder;
 import android.os.Looper;
@@ -13,6 +15,9 @@ import android.widget.Toast;
 import androidx.annotation.Nullable;
 import androidx.core.app.NotificationCompat;
 
+import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
+import com.barbera.barberaserviceapp.network.Register;
+import com.barbera.barberaserviceapp.network.RetrofitClientInstanceUser;
 import com.google.android.gms.location.FusedLocationProviderClient;
 import com.google.android.gms.location.LocationCallback;
 import com.google.android.gms.location.LocationRequest;
@@ -22,7 +27,15 @@ import com.pubnub.api.callbacks.PNCallback;
 import com.pubnub.api.models.consumer.PNPublishResult;
 import com.pubnub.api.models.consumer.PNStatus;
 
+import java.io.IOException;
 import java.util.LinkedHashMap;
+import java.util.List;
+import java.util.Locale;
+
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
+import retrofit2.Retrofit;
 
 import static com.barbera.barberaserviceapp.ServiceApplication.ID;
 import static com.barbera.barberaserviceapp.ServiceApplication.pubnub;
@@ -70,6 +83,33 @@ public class LiveLocationService extends Service {
                                         System.out.println("pub timetoken: " + result.getTimetoken());
                                     }
                                     System.out.println("pub status code: " + status.getStatusCode());
+                                    double lt=location.getLatitude();
+                                    double lon=location.getLongitude();
+                                    Geocoder geocoder;
+                                    List<Address> addresses = null;
+                                    geocoder = new Geocoder(getApplicationContext(), Locale.getDefault());
+                                    try {
+                                        addresses = geocoder.getFromLocation(lt, lon, 1);
+                                    } catch (IOException e) {
+                                        e.printStackTrace();
+                                    }
+                                    Address add=addresses.get(0);
+                                    Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
+                                    JsonPlaceHolderApi jsonPlaceHolderApi=retrofit.create(JsonPlaceHolderApi.class);
+                                    SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+                                    String token = preferences.getString("token", "no");
+                                    Call<Void> call=jsonPlaceHolderApi.updateAddress(new Register(lt,lon,add.getAddressLine(0)),"Bearer "+token);
+                                    call.enqueue(new Callback<Void>() {
+                                        @Override
+                                        public void onResponse(Call<Void> call, Response<Void> response) {
+
+                                        }
+
+                                        @Override
+                                        public void onFailure(Call<Void> call, Throwable t) {
+
+                                        }
+                                    });
                                 }
                             });
                 }
@@ -93,7 +133,6 @@ public class LiveLocationService extends Service {
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
         locationRequest.setSmallestDisplacement(500); // 500 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
-
     }
 
     @Override
