@@ -18,6 +18,7 @@ import io.realm.Realm;
 public class ServiceApplication extends Application {
     public static final String ID ="live location";
     public static final String SID="schedule";
+    public static final String NID="1 hour";
     public static PubNub pubnub;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override

@@ -50,13 +50,16 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         itemList =new ArrayList<BookingModel>();
+//        Calendar rn=Calendar.getInstance();
+//        SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH");
+//        String date2 = dateFormat2.format(rn.getTime());
+//        Toast.makeText(getApplicationContext(),date2,Toast.LENGTH_SHORT).show();
         SharedPreferences sharedPreferences=getSharedPreferences("abcd",MODE_PRIVATE);
         boolean first=sharedPreferences.getBoolean("first",false);
         if(!first){
             Calendar currentDate = Calendar.getInstance();
             Calendar dueDate = Calendar.getInstance();
-            // Set Execution around 01:00:00 AM
-            dueDate.set(Calendar.HOUR_OF_DAY, 12);
+            dueDate.set(Calendar.HOUR_OF_DAY, 14);
             dueDate.set(Calendar.MINUTE, 30);
             dueDate.set(Calendar.SECOND, 0);
             if (dueDate.before(currentDate)) {
@@ -70,10 +73,6 @@ public class MainActivity extends AppCompatActivity {
             long timeDiff = dueDate.getTimeInMillis() -currentDate.getTimeInMillis();
             OneTimeWorkRequest oneTimeWorkRequest= new OneTimeWorkRequest.Builder(PeriodicWork.class)
                     .setInitialDelay(timeDiff,TimeUnit.MILLISECONDS).build();
-
-//            PeriodicWorkRequest periodicWorkRequest=new PeriodicWorkRequest.Builder(
-//                    PeriodicWork.class,timeDiff, TimeUnit.MILLISECONDS
-//            ).build();
             WorkManager.getInstance().enqueue(oneTimeWorkRequest);
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putBoolean("first",true);

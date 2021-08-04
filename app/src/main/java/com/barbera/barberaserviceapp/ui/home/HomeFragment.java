@@ -45,10 +45,10 @@ public class HomeFragment extends Fragment {
     private SharedPreferences sharedPreferences;
     private Toolbar toolbar;
     private SwitchCompat switchCompat;
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         sharedPreferences= Objects.requireNonNull(getActivity()).getSharedPreferences("ServiceInfo",MODE_PRIVATE);
         setHasOptionsMenu(true);
     }
@@ -56,7 +56,6 @@ public class HomeFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-
         View view= inflater.inflate(R.layout.fragment_home,container,false);
         toolbar= view.findViewById(R.id.toolbar);
         ((AppCompatActivity)getActivity()).setSupportActionBar(toolbar);
@@ -89,16 +88,17 @@ public class HomeFragment extends Fragment {
             if(isChecked) {
                 editor.putBoolean("ischecked",true);
                 startFS();
+                Toast.makeText(getContext(),"Checked",Toast.LENGTH_SHORT).show();
             }else{
                 Intent serviceIntent = new Intent(getContext(), LiveLocationService.class);
                 getActivity().stopService(serviceIntent);
                 Intent scheduleIntent= new Intent(getContext(), ScheduleService.class);
                 getActivity().stopService(scheduleIntent);
                 editor.putBoolean("ischecked",false);
+                Toast.makeText(getContext(),"Not checked",Toast.LENGTH_SHORT).show();
             }
-            editor.commit();
+            editor.apply();
         });
-
 
         return view;
     }

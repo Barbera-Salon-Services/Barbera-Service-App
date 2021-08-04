@@ -59,7 +59,7 @@ public class ServiceActivity extends AppCompatActivity {
     private CountDownTimer countDownTimer;
     private long TimeLeftInMil;
     private long totalTime;
-    private int amount;
+    private int amount,time;
     public static boolean timerRunning = false;
     private long endTimer;
     private SharedPreferences sharedPreferences1,sharedPreferences;
@@ -83,7 +83,7 @@ public class ServiceActivity extends AppCompatActivity {
         sidlist= (List<String>) intent.getSerializableExtra("sidlist");
         userId=intent.getStringExtra("userId");
         amount=intent.getIntExtra("amount",0);
-
+        time=intent.getIntExtra("time",0);
         startotp = findViewById(R.id.editText);
         timer = findViewById(R.id.timer);
         endotp = findViewById(R.id.editText1);
@@ -91,9 +91,10 @@ public class ServiceActivity extends AppCompatActivity {
         endOtpBtn = findViewById(R.id.otp1);
 
         assignServiceTimer();
+        calculateTime();
 
         startOtpBtn.setOnClickListener(v -> {
-            String otpentered = startotp.getText().toString();
+            String otpentered = startotp.getText().toString().trim();
             Call<Success> call = jsonPlaceHolderApi.confirmStartOtp(new OtpItem(otpentered, sidlist, userId), "Bearer " + token);
             call.enqueue(new Callback<Success>() {
                 @Override
@@ -104,12 +105,12 @@ public class ServiceActivity extends AppCompatActivity {
                         timer.setVisibility(View.VISIBLE);
                         endotp.setVisibility(View.VISIBLE);
                         endOtpBtn.setVisibility(View.VISIBLE);
-                        Date today = new Date();
-                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
-                        startdt = format.format(today);
-                        Calendar calendar = Calendar.getInstance();
-                        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
-                        starttime = mdformat.format(calendar.getTime());
+//                        Date today = new Date();
+//                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
+//                        startdt = format.format(today);
+//                        Calendar calendar = Calendar.getInstance();
+//                        SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
+//                        starttime = mdformat.format(calendar.getTime());
                         //Toast.makeText(getApplicationContext(),startdt+""+starttime,Toast.LENGTH_SHORT).show();
                         startTimer();
                     } else {
@@ -122,6 +123,7 @@ public class ServiceActivity extends AppCompatActivity {
                     Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
                 }
             });
+
         });
 
         endOtpBtn.setOnClickListener(v -> {
@@ -139,7 +141,6 @@ public class ServiceActivity extends AppCompatActivity {
                         SimpleDateFormat mdformat = new SimpleDateFormat("HH:mm:ss");
                         endtime = mdformat.format(calendar.getTime());
                         endotp.getText().clear();
-                        calculateTime();
                         int amt = amount;
                         int pay= sharedPreferences.getInt("payment",0);
                         int trip= sharedPreferences.getInt("trips",0);
@@ -177,6 +178,7 @@ public class ServiceActivity extends AppCompatActivity {
                         editor.putBoolean("timerRunning", timerRunning);
                         editor.putLong("endTime", endTimer);
                         editor.apply();
+                        finish();
                     }
                     else{
                         Toast.makeText(getApplicationContext(), "Wrong otp entered", Toast.LENGTH_SHORT).show();
@@ -227,11 +229,7 @@ public class ServiceActivity extends AppCompatActivity {
     }
 
     private void calculateTime() {
-        long timeInMin= 0;
-        for (String s : ch) {
-            timeInMin = timeInMin + sharedPreferences1.getInt(s, 0);
-        }
-        totalTime = timeInMin*60000;
+        totalTime = time*60000;
     }
 
     private void startTimer() {
@@ -250,7 +248,6 @@ public class ServiceActivity extends AppCompatActivity {
                  timer1 += minutes+":";
                 if(seconds<10) timer1+= "0";
                 timer1+=seconds;
-
                 timer.setText(timer1);
             }
 

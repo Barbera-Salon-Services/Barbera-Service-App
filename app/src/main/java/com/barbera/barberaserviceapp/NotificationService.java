@@ -36,14 +36,14 @@ public class NotificationService extends FirebaseMessagingService {
         SharedPreferences preferences= getSharedPreferences("Token", Context.MODE_PRIVATE);
         String token=preferences.getString("token","no");
         SharedPreferences sharedPreferences=getSharedPreferences("Schedule",MODE_PRIVATE);
-        //Log.d("av",x);
+        Log.d("av",x);
         if(x.startsWith("You have been booked")){
             String z=x.substring(24,34);   //dd-mm-yyyy
             Date c = Calendar.getInstance().getTime();
             SimpleDateFormat df = new SimpleDateFormat("dd-MM-yyyy", Locale.getDefault());
             String formattedDate = df.format(c);
-            //Log.d("av",formattedDate);
-            //Log.d("av",z);
+            Log.d("av",formattedDate);
+            Log.d("av",z);
             if(formattedDate.equals(z)){
                 Call<ScheduleList> call=jsonPlaceHolderApi.getSchedule("Bearer "+token);
                 call.enqueue(new Callback<ScheduleList>() {

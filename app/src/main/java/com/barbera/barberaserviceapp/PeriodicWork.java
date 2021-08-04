@@ -40,16 +40,17 @@ public class PeriodicWork extends Worker {
         Calendar currentDate = Calendar.getInstance();
         Calendar dueDate = Calendar.getInstance();
         // Set Execution around 01:00:00 AM
-        dueDate.set(Calendar.HOUR_OF_DAY, 12);
+        dueDate.set(Calendar.HOUR_OF_DAY, 0);
         dueDate.set(Calendar.MINUTE, 30);
         dueDate.set(Calendar.SECOND, 0);
-        //Log.d("abs",);
+
         if (dueDate.before(currentDate)) {
             dueDate.add(Calendar.HOUR_OF_DAY, 24);
         }
+        Log.d("abs",dueDate.getTimeInMillis()+" "+currentDate.getTimeInMillis());
         long timeDiff = dueDate.getTimeInMillis() -currentDate.getTimeInMillis();
         OneTimeWorkRequest oneTimeWorkRequest= new OneTimeWorkRequest.Builder(PeriodicWork.class)
-                .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS).build();
+                .setInitialDelay(15, TimeUnit.MINUTES).build();
 
 //            PeriodicWorkRequest periodicWorkRequest=new PeriodicWorkRequest.Builder(
 //                    PeriodicWork.class,timeDiff, TimeUnit.MILLISECONDS

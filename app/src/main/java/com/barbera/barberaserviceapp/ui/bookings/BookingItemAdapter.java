@@ -37,8 +37,10 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
+import static com.barbera.barberaserviceapp.ui.service.ServiceActivity.timerRunning;
 
+public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
+    public static String unique;
     private List<BookingModel> bookingItemList;
     private  Context context;
 
@@ -66,11 +68,19 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");
         holder.distance.setText(bookingItem.getDistance()+"");
 
+        if(timerRunning && unique.equals(bookingItem.getServiceId()+bookingItem.getUserId())){
+            holder.start.setVisibility(View.INVISIBLE);
+            holder.live.setVisibility(View.VISIBLE);
+            holder.livebtn.setVisibility(View.VISIBLE);
+        }
+
         holder.start.setOnClickListener(v -> {
+            unique=bookingItem.getServiceId()+bookingItem.getUserId();
             Intent intent = new Intent(context,ServiceActivity.class);
             intent.putExtra("userId",bookingItem.getUserId());
             intent.putExtra("sidlist",(Serializable)bookingItem.getSidlist());
             intent.putExtra("amount",bookingItem.getAmount());
+            intent.putExtra("time",bookingItem.getTotalTime());
             ((Activity)context).finish();
             context.startActivity(intent);
         });
@@ -86,7 +96,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         private TextView amount;
         private TextView time;
         private TextView distance;
-        private Button start;
+        private Button start,live,livebtn;
         public BookingItemHolder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.add);
@@ -95,6 +105,8 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
             time = itemView.findViewById(R.id.Time1);
             distance=itemView.findViewById(R.id.distance);
             start=itemView.findViewById(R.id.start);
+            live = itemView.findViewById(R.id.live);
+            livebtn = itemView.findViewById(R.id.liveBtn);
         }
     }
 }

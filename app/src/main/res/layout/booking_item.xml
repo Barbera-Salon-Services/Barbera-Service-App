@@ -27,13 +27,13 @@
 				android:textColor="@color/colorAccent"
 				android:textSize="16dp"/>
 
-<!--		<ImageView-->
-<!--				android:padding="12dp"-->
-<!--				android:id="@+id/direction"-->
-<!--				android:layout_width="wrap_content"-->
-<!--				android:layout_height="wrap_content"-->
-<!--				android:src="@drawable/ic_direction"-->
-<!--				android:layout_alignParentRight="true"/>-->
+		<ImageView
+				android:padding="12dp"
+				android:id="@+id/direction"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:src="@drawable/ic_direction"
+				android:layout_alignParentRight="true"/>
 		<LinearLayout
 			android:id="@+id/dist"
 			android:layout_below="@id/add"

@@ -131,7 +131,7 @@ public class LiveLocationService extends Service {
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(500); // 500 meters minimum displacement for new location request
+        locationRequest.setSmallestDisplacement(1); // 500 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
     }
 
