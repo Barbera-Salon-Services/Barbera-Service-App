@@ -36,22 +36,22 @@ public class ItemList extends AppCompatActivity {
         recyclerView.setLayoutManager(new LinearLayoutManager(getApplicationContext()));
         adapter = new ItemListAdapter(itemModelList, getApplicationContext(), getSupportFragmentManager());
 
-        FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Item")
-                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
-            @Override
-            public void onComplete(@NonNull Task<QuerySnapshot> task) {
-                if (task.isSuccessful()) {
-                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
-                        itemModelList.add(new ItemModel(documentSnapshot.get("Apron").toString(), documentSnapshot.get("Carpet").toString(), documentSnapshot.get("Disposable").toString(),
-                                documentSnapshot.get("Mirror").toString(), documentSnapshot.get("Neck Tape").toString(), documentSnapshot.get("T-shirt").toString(),
-                                documentSnapshot.get("Tissue").toString(), documentSnapshot.get("Tripod").toString(), documentSnapshot.get("after lotion").toString(),
-                                documentSnapshot.get("bag").toString(), documentSnapshot.get("cleansing cream").toString(), documentSnapshot.get("shaving apron").toString(),
-                                documentSnapshot.get("shaving foam").toString(),documentSnapshot.get("date").toString(),documentSnapshot.getId(),documentSnapshot.get("Seen").toString()));
-                    }
-                    recyclerView.setAdapter(adapter);
-                }
-            }
-                });
+//        FirebaseFirestore.getInstance().collection("Service").document(FirebaseAuth.getInstance().getCurrentUser().getUid()).collection("Item")
+//                .get().addOnCompleteListener(new OnCompleteListener<QuerySnapshot>() {
+//            @Override
+//            public void onComplete(@NonNull Task<QuerySnapshot> task) {
+//                if (task.isSuccessful()) {
+//                    for (QueryDocumentSnapshot documentSnapshot : task.getResult()) {
+//                        itemModelList.add(new ItemModel(documentSnapshot.get("Apron").toString(), documentSnapshot.get("Carpet").toString(), documentSnapshot.get("Disposable").toString(),
+//                                documentSnapshot.get("Mirror").toString(), documentSnapshot.get("Neck Tape").toString(), documentSnapshot.get("T-shirt").toString(),
+//                                documentSnapshot.get("Tissue").toString(), documentSnapshot.get("Tripod").toString(), documentSnapshot.get("after lotion").toString(),
+//                                documentSnapshot.get("bag").toString(), documentSnapshot.get("cleansing cream").toString(), documentSnapshot.get("shaving apron").toString(),
+//                                documentSnapshot.get("shaving foam").toString(),documentSnapshot.get("date").toString(),documentSnapshot.getId(),documentSnapshot.get("Seen").toString()));
+//                    }
+//                    recyclerView.setAdapter(adapter);
+//                }
+//            }
+//                });
 
     }
 }

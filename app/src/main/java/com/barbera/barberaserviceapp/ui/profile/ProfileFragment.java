@@ -24,6 +24,9 @@ import androidx.fragment.app.Fragment;
 import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
 import com.barbera.barberaserviceapp.SecondScreen;
+import com.barbera.barberaserviceapp.Utils.CoinsItem;
+import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
+import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBarber;
 import com.barbera.barberaserviceapp.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +34,9 @@ import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentSnapshot;
 import com.google.firebase.firestore.FirebaseFirestore;
 
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 import retrofit2.Retrofit;
 
 import static android.content.Context.MODE_PRIVATE;
@@ -41,7 +47,7 @@ public class ProfileFragment extends Fragment {
     private ImageView refresh;
     private TextView email;
     private TextView phone;
-    private TextView earnings;
+    private TextView coins;
     private TextView points;
     private  TextView trips;
     private Button items;
@@ -59,7 +65,7 @@ public class ProfileFragment extends Fragment {
        email = (TextView)view.findViewById(R.id.EmailInProfile);
        refresh = view.findViewById(R.id.refresh);
        phone =(TextView)view.findViewById(R.id.PhoneInProfile);
-       //earnings =(TextView)view.findViewById(R.id.earning);
+       coins =(TextView)view.findViewById(R.id.coins_text);
        points =(TextView)view.findViewById(R.id.points);
        trips =(TextView)view.findViewById(R.id.trip);
        logout=(CardView)view.findViewById(R.id.logout);
@@ -132,6 +138,23 @@ public class ProfileFragment extends Fragment {
             points.setVisibility(View.VISIBLE);
             trips.setVisibility(View.VISIBLE);
             name.setText(sharedPreferences.getString("profilename",""));
+            Retrofit retrofit = RetrofitClientInstanceBarber.getRetrofitInstance();
+            JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
+
+            Call<CoinsItem> call=jsonPlaceHolderApi.getCoins("Bearer "+token);
+            call.enqueue(new Callback<CoinsItem>() {
+                @Override
+                public void onResponse(Call<CoinsItem> call, Response<CoinsItem> response) {
+                    if(response.code()==200){
+                        coins.setText(response.body().getCoins()+"");
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<CoinsItem> call, Throwable t) {
+
+                }
+            });
 //            email.setText(sharedPreferences.getString("email",""));
 //            phone.setText(sharedPreferences.getString("phone",""));
             //earnings.setText(sharedPreferences.getString("earnings",""));

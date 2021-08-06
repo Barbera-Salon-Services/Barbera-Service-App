@@ -1,6 +1,7 @@
 package com.barbera.barberaserviceapp.network;
 
 import com.barbera.barberaserviceapp.ScheduleList;
+import com.barbera.barberaserviceapp.Utils.CoinsItem;
 import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.ui.bookings.BookingList;
 import com.barbera.barberaserviceapp.ui.service.ServiceItem;
@@ -41,4 +42,7 @@ public interface JsonPlaceHolderApi {
     @GET("updlog")
     Call<ScheduleList> getSchedule(@Header("Authorization") String token);
     //data: "6"-"18":"n"/"b"
+    @GET("getcoins")
+    Call<CoinsItem> getCoins(@Header("Authorization") String token);
+
 }

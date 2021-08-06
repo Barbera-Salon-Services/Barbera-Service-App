@@ -25,6 +25,7 @@ import com.barbera.barberaserviceapp.network.RetrofitClientInstance;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBarber;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBooking;
 import com.barbera.barberaserviceapp.ui.bookings.BookingFragment;
+import com.barbera.barberaserviceapp.ui.bookings.BookingItemAdapter;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
@@ -51,7 +52,7 @@ public class ServiceActivity extends AppCompatActivity {
     private EditText endotp;
     private CardView startOtpBtn;
     private  CardView endOtpBtn;
-    private String token,userId;
+    private String token,userId,serviceId;
     private TextView timer;
     private String[] ch;
     private String startdt,enddt,starttime,endtime;
@@ -84,6 +85,7 @@ public class ServiceActivity extends AppCompatActivity {
         userId=intent.getStringExtra("userId");
         amount=intent.getIntExtra("amount",0);
         time=intent.getIntExtra("time",0);
+        serviceId=intent.getStringExtra("serviceId");
         startotp = findViewById(R.id.editText);
         timer = findViewById(R.id.timer);
         endotp = findViewById(R.id.editText1);
@@ -105,6 +107,7 @@ public class ServiceActivity extends AppCompatActivity {
                         timer.setVisibility(View.VISIBLE);
                         endotp.setVisibility(View.VISIBLE);
                         endOtpBtn.setVisibility(View.VISIBLE);
+                        BookingItemAdapter.unique=serviceId;
 //                        Date today = new Date();
 //                        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a");
 //                        startdt = format.format(today);

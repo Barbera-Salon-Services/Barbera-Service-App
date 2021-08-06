@@ -16,6 +16,7 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.MenuItem;
 import android.widget.Toast;
@@ -57,6 +58,7 @@ public class MainActivity extends AppCompatActivity {
         SharedPreferences sharedPreferences=getSharedPreferences("abcd",MODE_PRIVATE);
         boolean first=sharedPreferences.getBoolean("first",false);
         if(!first){
+            Toast.makeText(getApplicationContext(),"All tasks started",Toast.LENGTH_LONG).show();
             Calendar currentDate = Calendar.getInstance();
             Calendar dueDate = Calendar.getInstance();
             dueDate.set(Calendar.HOUR_OF_DAY, 14);
@@ -77,6 +79,30 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor=sharedPreferences.edit();
             editor.putBoolean("first",true);
             editor.apply();
+
+//            Handler handler = new Handler();
+//            try {
+//                handler.postDelayed({
+//
+//                    try {
+//                        Handler().post {
+//
+//                        }
+//                    } catch (e: Exception) {
+//                        Timber.e(“Error occured while trying to start text to speech engine — “ + e)
+//                    }
+//                else if (parseSusiHelper.actionType == Constant.STOP) {
+//                    setMessage = parseSusiHelper.stop
+//                    removeCallBacks()
+//                    chatView?.stopMic()
+//                }
+//                if (parseSusiHelper.answer == ALARM) {
+//                    playRingTone()
+//                }
+//                }, planDelay)
+//            } catch (e: java.lang.Exception) {
+//                Timber.e(“Error while showing data — “ + e)
+//            }
         }
         myBookingItemList = new ArrayList<BookingItem>();
         checkPermission();

@@ -40,7 +40,7 @@ import retrofit2.Retrofit;
 import static com.barbera.barberaserviceapp.ui.service.ServiceActivity.timerRunning;
 
 public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
-    public static String unique;
+    public static String unique="";
     private List<BookingModel> bookingItemList;
     private  Context context;
 
@@ -75,13 +75,23 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         }
 
         holder.start.setOnClickListener(v -> {
-            unique=bookingItem.getServiceId()+bookingItem.getUserId();
             Intent intent = new Intent(context,ServiceActivity.class);
             intent.putExtra("userId",bookingItem.getUserId());
             intent.putExtra("sidlist",(Serializable)bookingItem.getSidlist());
             intent.putExtra("amount",bookingItem.getAmount());
             intent.putExtra("time",bookingItem.getTotalTime());
+            intent.putExtra("serviceId",bookingItem.getServiceId());
             ((Activity)context).finish();
+            context.startActivity(intent);
+        });
+
+        holder.livebtn.setOnClickListener(v -> {
+            Intent intent = new Intent(context, ServiceActivity.class);
+            intent.putExtra("userId",bookingItem.getUserId());
+            intent.putExtra("sidlist",(Serializable)bookingItem.getSidlist());
+            intent.putExtra("amount",bookingItem.getAmount());
+            intent.putExtra("time",bookingItem.getTotalTime());
+            intent.putExtra("serviceId",bookingItem.getServiceId());
             context.startActivity(intent);
         });
     }
@@ -95,8 +105,8 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         private TextView service;
         private TextView amount;
         private TextView time;
-        private TextView distance;
-        private Button start,live,livebtn;
+        private TextView distance,live;
+        private Button start,livebtn;
         public BookingItemHolder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.add);
