@@ -17,8 +17,8 @@ import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.Toast;
 
+import com.barbera.barberaserviceapp.ActivityPhoneVerification;
 import com.barbera.barberaserviceapp.R;
-import com.barbera.barberaserviceapp.ui.login.LoginActivity;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -109,7 +109,7 @@ public class Payments extends AppCompatActivity {
                                 @Override
                                 public void onSuccess(Void aVoid) {
                                     Toast.makeText(getApplicationContext(),"We are reviewing your response and will get back to you soon",Toast.LENGTH_LONG).show();
-                                    Intent intent = new Intent(Payments.this, LoginActivity.class);
+                                    Intent intent = new Intent(Payments.this, ActivityPhoneVerification.class);
 
                                     startActivity(intent);
                                 }

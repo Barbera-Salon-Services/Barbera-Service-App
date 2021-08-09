@@ -2,12 +2,16 @@ package com.barbera.barberaserviceapp.ui.profile;
 
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
-import android.app.ProgressDialog;
-import android.content.Context;
+import android.app.PictureInPictureParams;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Rational;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -18,6 +22,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
@@ -27,12 +32,6 @@ import com.barbera.barberaserviceapp.SecondScreen;
 import com.barbera.barberaserviceapp.Utils.CoinsItem;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBarber;
-import com.barbera.barberaserviceapp.ui.login.LoginActivity;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
-import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.firestore.DocumentSnapshot;
-import com.google.firebase.firestore.FirebaseFirestore;
 
 import retrofit2.Call;
 import retrofit2.Callback;
@@ -71,6 +70,7 @@ public class ProfileFragment extends Fragment {
        logout=(CardView)view.findViewById(R.id.logout);
        items = view.findViewById(R.id.items);
        sharedPreferences = getActivity().getSharedPreferences("UserInfo", MODE_PRIVATE);
+       MainActivity.trig=true;
 
         SharedPreferences preferences=getActivity().getSharedPreferences("Token",MODE_PRIVATE);
         token = preferences.getString("token","no");
@@ -171,12 +171,14 @@ public class ProfileFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 profilename="";
+
                 final AlertDialog.Builder builder=new AlertDialog.Builder(getActivity());
                 builder.setMessage("Logout From This Device??");
                 builder.setPositiveButton("YES", new DialogInterface.OnClickListener() {
                     @SuppressLint("ResourceAsColor")
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
+                        MainActivity.trig=false;
                         SharedPreferences preferences=getActivity().getSharedPreferences("Token",MODE_PRIVATE);
                         SharedPreferences.Editor editor=preferences.edit();
                         editor.putString("token","no");
@@ -195,4 +197,34 @@ public class ProfileFragment extends Fragment {
             }
         });
     }
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(MainActivity.trig){
+            Log.d("pip","made pip");
+            triggerPiP();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void triggerPiP() {
+        Log.d("pip","triggered");
+        Display d = getActivity().getWindowManager()
+                .getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+        int width = p.x;
+        int height = p.y;
+
+        Rational ratio
+                = new Rational(width, height);
+        PictureInPictureParams.Builder
+                pip_Builder
+                = new PictureInPictureParams
+                .Builder();
+        pip_Builder.setAspectRatio(ratio).build();
+        getActivity().enterPictureInPictureMode(pip_Builder.build());
+    }
+
 }

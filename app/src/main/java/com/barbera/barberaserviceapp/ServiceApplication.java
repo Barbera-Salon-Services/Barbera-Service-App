@@ -15,10 +15,11 @@ import com.pubnub.api.PubNub;
 
 import io.realm.Realm;
 
+import static com.barbera.barberaserviceapp.BackgroundTask.ID;
+import static com.barbera.barberaserviceapp.BackgroundTask.SID;
+
 public class ServiceApplication extends Application {
-    public static final String ID ="live location";
-    public static final String SID="schedule";
-    public static final String NID="1 hour";
+
     public static PubNub pubnub;
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
@@ -112,6 +113,7 @@ public class ServiceApplication extends Application {
         pnConfiguration.setSecure(true);
         pubnub = new PubNub(pnConfiguration);
     }
+
     private void createNotification() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
             NotificationChannel serviceChannel = new NotificationChannel(
@@ -119,16 +121,15 @@ public class ServiceApplication extends Application {
                     "Live Location Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            NotificationManager manager = getSystemService(NotificationManager.class);
+            NotificationManager manager = getApplicationContext().getSystemService(NotificationManager.class);
             manager.createNotificationChannel(serviceChannel);
             NotificationChannel scheduleChannel = new NotificationChannel(
                     SID,
                     "Schedule Channel",
                     NotificationManager.IMPORTANCE_DEFAULT
             );
-            NotificationManager manager1 = getSystemService(NotificationManager.class);
+            NotificationManager manager1 = getApplicationContext().getSystemService(NotificationManager.class);
             manager1.createNotificationChannel(scheduleChannel);
         }
     }
-
 }

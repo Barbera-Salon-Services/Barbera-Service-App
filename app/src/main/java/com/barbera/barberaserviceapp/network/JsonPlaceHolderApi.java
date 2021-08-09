@@ -32,7 +32,7 @@ public interface JsonPlaceHolderApi {
 
     @POST("acceptstartserv")
     Call<Success> confirmStartOtp(@Body OtpItem otpItem, @Header("Authorization") String token);
-
+    //current date dd-mm-yyyy
     @POST("acceptendserv")
     Call<Success> confirmEndOtp(@Body OtpItem otpItem, @Header("Authorization") String token);
 
@@ -45,4 +45,6 @@ public interface JsonPlaceHolderApi {
     @GET("getcoins")
     Call<CoinsItem> getCoins(@Header("Authorization") String token);
 
+    @POST("dismode")
+    Call<Void> barberLeft(@Body OtpItem userId,@Header("Authorization") String token);
 }
