@@ -73,12 +73,6 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         Retrofit retrofit = RetrofitClientInstanceBarber.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        if(bookingItem.getMode().equals("end")){
-            holder.barberLeft.setVisibility(View.INVISIBLE);
-        }
-        else{
-            holder.barberLeft.setVisibility(View.VISIBLE);
-        }
         if(bookingItem.getStatus().equals("done")){
             holder.start.setVisibility(View.INVISIBLE);
             holder.enterOtp.setVisibility(View.INVISIBLE);
@@ -99,9 +93,17 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
             holder.barberLeft.setVisibility(View.VISIBLE);
             holder.status.setText("Pending");
         }
+        if(bookingItem.getMode().equals("start")){
+            //Log.d("here","start");
+            holder.barberLeft.setVisibility(View.INVISIBLE);
+        }
+        else{
+            holder.barberLeft.setVisibility(View.VISIBLE);
+        }
         if(position!=0){
             holder.barberLeft.setVisibility(View.INVISIBLE);
         }
+
         holder.address.setText(bookingItem.getAddress());
         holder.service.setText(bookingItem.getSummary());
         holder.amount.setText(bookingItem.getAmount()+"");
@@ -126,7 +128,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
                                 holder.enterOtp.getText().clear();
                                 holder.enterOtp.setHint("Enter end otp");
                                 holder.status.setVisibility(View.VISIBLE);
-                                holder.status.setText("Pending");
+                                holder.status.setText("Ongoing");
                                 progressDialog.dismiss();
                             } else {
                                 progressDialog.dismiss();
@@ -143,7 +145,8 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
                 }
             }
             else{
-                String otp2 = holder.start.getText().toString().trim();
+                String otp2 = holder.enterOtp.getText().toString().trim();
+                //Log.d("len",otp2.length()+"");
                 if(otp2.length()!=6){
                     holder.enterOtp.setError("Wrong otp entered");
                 }

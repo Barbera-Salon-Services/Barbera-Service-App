@@ -18,6 +18,7 @@ import androidx.appcompat.widget.SwitchCompat;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
+import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
 
 import java.util.Objects;
@@ -59,6 +60,7 @@ public class HomeFragment extends Fragment {
 //            startFS();
 //            switchCompat.setChecked(true);
 //        }
+        MainActivity.trig=true;
 
         trips.setText(sharedPreferences.getInt("trips",0)+"");
         //earnings.setText("Rs. "+sharedPreferences.getInt("payment",0));

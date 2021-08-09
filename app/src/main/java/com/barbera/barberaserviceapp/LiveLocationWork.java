@@ -68,7 +68,7 @@ public class LiveLocationWork extends Worker {
     @Override
     public Result doWork() {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
-        Log.d("on","oncreate");
+        //Log.d("on","oncreate");
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(5000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
@@ -81,19 +81,19 @@ public class LiveLocationWork extends Worker {
         Thread thread = new Thread() {
             public void run() {
                 Looper.prepare();
-                Handler mHandler = new Handler();
-                mHandler.postDelayed(new Runnable() {
-                    @Override
-                    public void run() {
+//                Handler mHandler = new Handler();
+//                mHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
                         Calendar rightNow = Calendar.getInstance();
                         int currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
                         Log.d("cur",currentHourIn24Format+"");
-                        if(currentHourIn24Format>=6 && currentHourIn24Format<=18){
+                        if(currentHourIn24Format>=0 && currentHourIn24Format<=18){
                             runTimer();
-                            runLongLoop();
+                            //runLongLoop();
                         }
-                    }
-                }, 60000);
+//                    }
+//                }, 60000);
                 Looper.loop();
             }
         };

@@ -2,6 +2,8 @@ package com.barbera.barberaserviceapp;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.os.Handler;
+import android.os.Looper;
 import android.util.Log;
 
 import androidx.annotation.NonNull;
@@ -30,31 +32,25 @@ public class PeriodicWork extends Worker {
         super(context, workerParams);
         this.context=context;
     }
-
-    @NonNull
-    @NotNull
-    @Override
-    public Result doWork() {
-        Log.d("work","Work is done");
-        Calendar currentDate = Calendar.getInstance();
-        Calendar dueDate = Calendar.getInstance();
-        // Set Execution around 01:00:00 AM
-        dueDate.set(Calendar.HOUR_OF_DAY, 0);
-        dueDate.set(Calendar.MINUTE, 30);
-        dueDate.set(Calendar.SECOND, 0);
-
-        if (dueDate.before(currentDate)) {
-            dueDate.add(Calendar.HOUR_OF_DAY, 24);
-        }
-        Log.d("abs",dueDate.getTimeInMillis()+" "+currentDate.getTimeInMillis());
-        long timeDiff = dueDate.getTimeInMillis() -currentDate.getTimeInMillis();
-        OneTimeWorkRequest oneTimeWorkRequest= new OneTimeWorkRequest.Builder(PeriodicWork.class)
-                .setInitialDelay(timeDiff, TimeUnit.MINUTES).build();
-
-//            PeriodicWorkRequest periodicWorkRequest=new PeriodicWorkRequest.Builder(
-//                    PeriodicWork.class,timeDiff, TimeUnit.MILLISECONDS
-//            ).build();
-        WorkManager.getInstance().enqueue(oneTimeWorkRequest);
+    public void runLongLoop() {
+        Log.d("Periodic","in");
+        Thread thread = new Thread() {
+            public void run() {
+//                Looper.prepare();
+//                Handler mHandler = new Handler();
+//                mHandler.postDelayed(new Runnable() {
+//                    @Override
+//                    public void run() {
+                        RunTimer();
+//                        runLongLoop();
+//                    }
+//                }, 3600000*24);
+//                Looper.loop();
+            }
+        };
+        thread.start();
+    }
+    public void RunTimer(){
         Retrofit retrofit= RetrofitClientInstanceBarber.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi=retrofit.create(JsonPlaceHolderApi.class);
         SharedPreferences preferences = context.getSharedPreferences("Token", context.MODE_PRIVATE);
@@ -91,6 +87,13 @@ public class PeriodicWork extends Worker {
 
             }
         });
+    }
+
+    @NonNull
+    @NotNull
+    @Override
+    public Result doWork() {
+        runLongLoop();
         return Result.success();
     }
 }

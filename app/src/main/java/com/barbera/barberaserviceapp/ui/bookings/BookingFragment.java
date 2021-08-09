@@ -1,10 +1,16 @@
 package com.barbera.barberaserviceapp.ui.bookings;
 
+import android.app.PictureInPictureParams;
 import android.app.ProgressDialog;
 
 import android.content.Context;
 import android.content.SharedPreferences;
+import android.graphics.Point;
+import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
+import android.util.Rational;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -13,6 +19,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.Toast;
+
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.widget.Toolbar;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -21,6 +29,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstance;
@@ -44,8 +53,9 @@ public class BookingFragment extends Fragment {
     private RecyclerView recyclerView;
     private Toolbar toolbar;
     public static BookingItemAdapter adapter;
-    public static List<BookingModel> itemList;
+    public static List<BookingModel> itemList=new ArrayList<>();
     public static List<BookingItem> myBookingItemList;
+
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -64,6 +74,7 @@ public class BookingFragment extends Fragment {
         recyclerView = view.findViewById(R.id.recycler_booking);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext()));
         recyclerView.setHasFixedSize(true);
+        MainActivity.trig=true;
 
         if(itemList.size() != 0 ){
             attach_adapter();
@@ -99,6 +110,7 @@ public class BookingFragment extends Fragment {
                 List<BookingItem> bookingItems = response.body().getList();
                 List<BookingItem> bookingList=response.body().getList1();
                 String mode= response.body().isMode();
+                //Log.d("mode",mode);
                 if(bookingList.size()==0){
                     Toast.makeText(getContext(),"No bookings made",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
@@ -274,4 +286,32 @@ public class BookingFragment extends Fragment {
         recyclerView.setAdapter(adapter);
     }
 
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    @Override
+    public void onPause() {
+        super.onPause();
+        if(MainActivity.trig){
+            Log.d("pip","made pip");
+            triggerPiP();
+        }
+    }
+    @RequiresApi(api = Build.VERSION_CODES.O)
+    public void triggerPiP() {
+        Log.d("pip","triggered");
+        Display d = getActivity().getWindowManager()
+                .getDefaultDisplay();
+        Point p = new Point();
+        d.getSize(p);
+        int width = p.x;
+        int height = p.y;
+
+        Rational ratio
+                = new Rational(width, height);
+        PictureInPictureParams.Builder
+                pip_Builder
+                = new PictureInPictureParams
+                .Builder();
+        pip_Builder.setAspectRatio(ratio).build();
+        getActivity().enterPictureInPictureMode(pip_Builder.build());
+    }
 }
