@@ -35,15 +35,17 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
-
-import static com.barbera.barberaserviceapp.MainActivity.itemList;
+//
+//import static com.barbera.barberaserviceapp.MainActivity.itemList;
 
 public class BookingFragment extends Fragment {
     private Retrofit retrofit;
     private JsonPlaceHolderApi jsonPlaceHolderApi;
     private RecyclerView recyclerView;
     private Toolbar toolbar;
-    private BookingItemAdapter adapter;
+    public static BookingItemAdapter adapter;
+    public static List<BookingModel> itemList;
+    public static List<BookingItem> myBookingItemList;
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -94,13 +96,15 @@ public class BookingFragment extends Fragment {
                     progressDialog.dismiss();
                     return;
                 }
-                List<BookingItem> bookingList = response.body().getList();
+                List<BookingItem> bookingItems = response.body().getList();
+                List<BookingItem> bookingList=response.body().getList1();
+                String mode= response.body().isMode();
                 if(bookingList.size()==0){
                     Toast.makeText(getContext(),"No bookings made",Toast.LENGTH_SHORT).show();
                     progressDialog.dismiss();
                 }else{
                     int i = 0, amount = 0,totalTime=0;
-                    String summary = "", date = "", slot = "", timestamp = "",address="",userId="",serviceId="";
+                    String summary = "", date = "", slot = "", timestamp = "",address="",userId="",serviceId="",status="";
                     double distance=0;
                     List<String> sidlist=new ArrayList<>();
                     for(BookingItem bookingItem: bookingList){
@@ -120,6 +124,7 @@ public class BookingFragment extends Fragment {
                             userId=bookingItem.getUserId();
                             totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                             serviceId=bookingItem.getServiceId();
+                            status=bookingItem.getStatus();
                             i++;
                         } else {
                             if (bookingItem.getTimestamp().equals(timestamp)) {
@@ -139,7 +144,7 @@ public class BookingFragment extends Fragment {
                                 totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                             } else {
                                 //Log.d("timestamp",timestamp);
-                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId));
+                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
                                 date = bookingItem.getDate();
                                 slot = bookingItem.getSlot();
                                 summary = "";
@@ -155,6 +160,7 @@ public class BookingFragment extends Fragment {
                                 distance=bookingItem.getDistance();
                                 address=bookingItem.getAdd();
                                 userId=bookingItem.getUserId();
+                                status=bookingItem.getStatus();
                                 sidlist=new ArrayList<>();
                                 sidlist.add(bookingItem.getServiceId());
                                 totalTime=0;
@@ -163,7 +169,77 @@ public class BookingFragment extends Fragment {
                             }
                         }
                     }
-                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId));
+                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                    if(bookingItems.size()!=0){
+                        i = 0;
+                        amount = 0;
+                        totalTime=0;summary = "";date = ""; slot = ""; timestamp = "";address="";userId="";serviceId="";status="";
+                        distance=0;
+                        sidlist=new ArrayList<>();
+                        for(BookingItem bookingItem: bookingItems){
+                            if (i == 0) {
+                                String name = bookingItem.getService().getName();
+                                String gender = bookingItem.getService().getGender();
+                                int price = bookingItem.getService().getPrice();
+                                int quantity=bookingItem.getQuantity();
+                                summary += "(" + gender + ") " + name + "   Rs: " + price + "  ("+quantity+")"+"\n";
+                                amount += (bookingItem.getQuantity()*bookingItem.getService().getPrice());
+                                timestamp += bookingItem.getTimestamp();
+                                sidlist.add(bookingItem.getServiceId());
+                                date = bookingItem.getDate();
+                                slot = bookingItem.getSlot();
+                                distance=bookingItem.getDistance();
+                                address=bookingItem.getAdd();
+                                userId=bookingItem.getUserId();
+                                totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
+                                serviceId=bookingItem.getServiceId();
+                                status=bookingItem.getStatus();
+                                i++;
+                            } else {
+                                if (bookingItem.getTimestamp().equals(timestamp)) {
+                                    String name = bookingItem.getService().getName();
+                                    String gender = bookingItem.getService().getGender();
+                                    int price = bookingItem.getService().getPrice();
+                                    int quantity = bookingItem.getQuantity();
+                                    summary += "(" + gender + ") " + name + "   Rs: " + price + "  (" + quantity + ")" + "\n";
+                                    amount += (bookingItem.getQuantity() * bookingItem.getService().getPrice());
+                                    date = bookingItem.getDate();
+                                    slot = bookingItem.getSlot();
+                                    timestamp = "";
+                                    timestamp += bookingItem.getTimestamp();
+                                    distance=bookingItem.getDistance();
+                                    address=bookingItem.getAdd();
+                                    sidlist.add(bookingItem.getServiceId());
+                                    totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
+                                } else {
+                                    //Log.d("timestamp",timestamp);
+                                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                                    date = bookingItem.getDate();
+                                    slot = bookingItem.getSlot();
+                                    summary = "";
+                                    String name = bookingItem.getService().getName();
+                                    String gender = bookingItem.getService().getGender();
+                                    int price = bookingItem.getService().getPrice();
+                                    int quantity = bookingItem.getQuantity();
+                                    summary += "(" + gender + ") " + name + "   Rs: " + price + "  (" + quantity + ")" + "\n";
+                                    amount = 0;
+                                    amount += (bookingItem.getQuantity() * bookingItem.getService().getPrice());
+                                    timestamp = "";
+                                    timestamp += bookingItem.getTimestamp();
+                                    distance=bookingItem.getDistance();
+                                    address=bookingItem.getAdd();
+                                    userId=bookingItem.getUserId();
+                                    status=bookingItem.getStatus();
+                                    sidlist=new ArrayList<>();
+                                    sidlist.add(bookingItem.getServiceId());
+                                    totalTime=0;
+                                    totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
+                                    serviceId=bookingItem.getServiceId();
+                                }
+                            }
+                        }
+                        itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                    }
                     progressDialog.dismiss();
                     attach_adapter();
 //                    addToLocalDb();
@@ -197,10 +273,5 @@ public class BookingFragment extends Fragment {
     private void attach_adapter() {
         recyclerView.setAdapter(adapter);
     }
-//    private void addToLocalDb() {
-//        Realm realm =Realm.getDefaultInstance();
-//        realm.beginTransaction();
-//        realm.insert(itemList);
-//        realm.commitTransaction();
-//    }
+
 }

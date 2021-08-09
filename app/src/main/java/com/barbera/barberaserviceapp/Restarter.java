@@ -11,6 +11,6 @@ public class Restarter extends BroadcastReceiver {
     public void onReceive(Context context, Intent intent) {
         Log.i("Broadcast Listened", "Service tried to stop");
         Toast.makeText(context, "Service restarted", Toast.LENGTH_SHORT).show();
-        context.startService(new Intent(context, LiveLocationService.class));
+        context.startService(new Intent(context, LiveLocationWork.class));
     }
 }

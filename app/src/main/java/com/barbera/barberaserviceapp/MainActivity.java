@@ -25,7 +25,6 @@ import com.barbera.barberaserviceapp.ui.bookings.BookingFragment;
 import com.barbera.barberaserviceapp.ui.bookings.BookingItem;
 import com.barbera.barberaserviceapp.ui.bookings.BookingModel;
 import com.barbera.barberaserviceapp.ui.home.HomeFragment;
-import com.barbera.barberaserviceapp.ui.mybookings.MyBookingFragment;
 import com.barbera.barberaserviceapp.ui.profile.ProfileFragment;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -41,10 +40,9 @@ import java.util.Date;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
-public class MainActivity extends AppCompatActivity {
-
+public class MainActivity extends AppCompatActivity{
     public static List<BookingModel> itemList;
-    public static  List<BookingItem> myBookingItemList;
+    private WorkManager mWorkManager,workManager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -55,64 +53,64 @@ public class MainActivity extends AppCompatActivity {
 //        SimpleDateFormat dateFormat2 = new SimpleDateFormat("HH");
 //        String date2 = dateFormat2.format(rn.getTime());
 //        Toast.makeText(getApplicationContext(),date2,Toast.LENGTH_SHORT).show();
+        mWorkManager = WorkManager.getInstance(getApplication());
+        workManager=WorkManager.getInstance(getApplication());
         SharedPreferences sharedPreferences=getSharedPreferences("abcd",MODE_PRIVATE);
         boolean first=sharedPreferences.getBoolean("first",false);
-        if(!first){
-            Toast.makeText(getApplicationContext(),"All tasks started",Toast.LENGTH_LONG).show();
-            Calendar currentDate = Calendar.getInstance();
-            Calendar dueDate = Calendar.getInstance();
-            dueDate.set(Calendar.HOUR_OF_DAY, 14);
-            dueDate.set(Calendar.MINUTE, 30);
-            dueDate.set(Calendar.SECOND, 0);
-            if (dueDate.before(currentDate)) {
-                dueDate.add(Calendar.HOUR_OF_DAY, 24);
-            }
-            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
-            String date = dateFormat.format(currentDate.getTime());
-            String date1 = dateFormat.format(dueDate.getTime());
-            Log.d("abs",date);
-            Log.d("abs",date1);
-            long timeDiff = dueDate.getTimeInMillis() -currentDate.getTimeInMillis();
-            OneTimeWorkRequest oneTimeWorkRequest= new OneTimeWorkRequest.Builder(PeriodicWork.class)
-                    .setInitialDelay(timeDiff,TimeUnit.MILLISECONDS).build();
-            WorkManager.getInstance().enqueue(oneTimeWorkRequest);
-            SharedPreferences.Editor editor=sharedPreferences.edit();
-            editor.putBoolean("first",true);
-            editor.apply();
-
-//            Handler handler = new Handler();
-//            try {
-//                handler.postDelayed({
-//
-//                    try {
-//                        Handler().post {
-//
-//                        }
-//                    } catch (e: Exception) {
-//                        Timber.e(“Error occured while trying to start text to speech engine — “ + e)
-//                    }
-//                else if (parseSusiHelper.actionType == Constant.STOP) {
-//                    setMessage = parseSusiHelper.stop
-//                    removeCallBacks()
-//                    chatView?.stopMic()
-//                }
-//                if (parseSusiHelper.answer == ALARM) {
-//                    playRingTone()
-//                }
-//                }, planDelay)
-//            } catch (e: java.lang.Exception) {
-//                Timber.e(“Error while showing data — “ + e)
+        if(!first) {
+            SharedPreferences yo=getSharedPreferences("Schedule",MODE_PRIVATE);
+            SharedPreferences.Editor editor1=sharedPreferences.edit();
+            editor1.putString("prev","25");
+            editor1.apply();
+//            Toast.makeText(getApplicationContext(), "All tasks started", Toast.LENGTH_LONG).show();
+//            Calendar currentDate = Calendar.getInstance();
+//            Calendar dueDate = Calendar.getInstance();
+//            dueDate.set(Calendar.HOUR_OF_DAY, 14);
+//            dueDate.set(Calendar.MINUTE, 30);
+//            dueDate.set(Calendar.SECOND, 0);
+//            if (dueDate.before(currentDate)) {
+//                dueDate.add(Calendar.HOUR_OF_DAY, 24);
 //            }
+//            SimpleDateFormat dateFormat = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss");
+//            String date = dateFormat.format(currentDate.getTime());
+//            String date1 = dateFormat.format(dueDate.getTime());
+//            Log.d("abs", date);
+//            Log.d("abs", date1);
+//            long timeDiff = dueDate.getTimeInMillis() - currentDate.getTimeInMillis();
+//            OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(PeriodicWork.class)
+//                    .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS).build();
+//            WorkManager.getInstance().enqueue(oneTimeWorkRequest);
+            SharedPreferences.Editor editor = sharedPreferences.edit();
+            editor.putBoolean("first", true);
+            editor.apply();
         }
-        myBookingItemList = new ArrayList<BookingItem>();
+        applyBlur(1);
         checkPermission();
         getInfo();
-
         Fragment fragment = new HomeFragment();
         getSupportFragmentManager().beginTransaction().add(R.id.fragment_container, fragment).commit();
 
-        BottomNavigationView bottomNavigationView =findViewById(R.id.bottom_navigation);
+        BottomNavigationView bottomNavigationView = findViewById(R.id.bottom_navigation);
         bottomNavigationView.setOnNavigationItemSelectedListener(navigationItemSelectedListener);
+    }
+    void applyBlur(int blurLevel) {
+        Calendar currentDate = Calendar.getInstance();
+        int x=currentDate.get(Calendar.HOUR_OF_DAY);
+        Calendar dueDate = Calendar.getInstance();
+            x++;
+            if(x==24){
+                x=0;
+            }
+            dueDate.set(Calendar.HOUR_OF_DAY, x);
+            dueDate.set(Calendar.MINUTE, 0);
+            dueDate.set(Calendar.SECOND, 0);
+            long timeDiff = dueDate.getTimeInMillis() - currentDate.getTimeInMillis();
+            OneTimeWorkRequest oneTimeWorkRequest = new OneTimeWorkRequest.Builder(BackgroundTask.class)
+                    .setInitialDelay(timeDiff, TimeUnit.MILLISECONDS).build();
+
+        //mWorkManager.enqueue(oneTimeWorkRequest);
+        mWorkManager.enqueue(OneTimeWorkRequest.from(BackgroundTask.class));
+        //workManager.enqueue(OneTimeWorkRequest.from(LiveLocationWork.class));
     }
 
     private void getInfo() {
@@ -143,7 +141,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        
+
     }
     public void checkPermission() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
@@ -156,3 +154,4 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 }
+

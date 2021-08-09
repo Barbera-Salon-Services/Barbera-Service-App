@@ -4,7 +4,6 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.app.ActivityCompat;
 
 import android.Manifest;
-import android.app.ProgressDialog;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
@@ -19,12 +18,6 @@ import android.widget.ImageView;
 import android.widget.Toast;
 
 import com.barbera.barberaserviceapp.R;
-import com.barbera.barberaserviceapp.ui.service.ImageVerifyActivity;
-import com.google.firebase.storage.StorageReference;
-
-import java.io.ByteArrayOutputStream;
-
-import static com.barbera.barberaserviceapp.LiveLocationService.person;
 
 public class VehicleDetails extends AppCompatActivity {
     private Button prev,next;

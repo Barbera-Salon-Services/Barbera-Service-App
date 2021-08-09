@@ -26,9 +26,11 @@ public class BookingItem {
     private String slot;
     @SerializedName("serviceId")
     private String serviceId;
+    @SerializedName("service_status")
+    private String status;
 
     public BookingItem(double lat, double lon, String add, double distance, ServiceItem service,String timestamp,
-                       int quantity,String date,String slot,String userId,String serviceId) {
+                       int quantity,String date,String slot,String userId,String serviceId,String status) {
         this.lat = lat;
         this.lon = lon;
         this.add = add;
@@ -40,6 +42,11 @@ public class BookingItem {
         this.slot=slot;
         this.userId=userId;
         this.serviceId=serviceId;
+        this.status=status;
+    }
+
+    public String getStatus() {
+        return status;
     }
 
     public String getServiceId() {

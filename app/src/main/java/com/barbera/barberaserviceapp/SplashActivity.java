@@ -9,8 +9,6 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
-import com.barbera.barberaserviceapp.ui.CheckUser;
-import com.barbera.barberaserviceapp.ui.login.LoginActivity;
 
 public class SplashActivity extends AppCompatActivity {
 
