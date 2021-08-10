@@ -88,7 +88,7 @@ public class LiveLocationWork extends Worker {
                         Calendar rightNow = Calendar.getInstance();
                         int currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
                         Log.d("cur",currentHourIn24Format+"");
-                        if(currentHourIn24Format>=0 && currentHourIn24Format<=18){
+                        if(currentHourIn24Format>=6 && currentHourIn24Format<=18){
                             runTimer();
                             //runLongLoop();
                         }
