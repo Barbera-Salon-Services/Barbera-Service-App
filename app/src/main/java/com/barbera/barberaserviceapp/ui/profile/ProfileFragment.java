@@ -26,6 +26,7 @@ import androidx.annotation.RequiresApi;
 import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
 
+import com.barbera.barberaserviceapp.ActivityPhoneVerification;
 import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
 import com.barbera.barberaserviceapp.SecondScreen;
@@ -183,7 +184,7 @@ public class ProfileFragment extends Fragment {
                         SharedPreferences.Editor editor=preferences.edit();
                         editor.putString("token","no");
                         editor.apply();
-                        startActivity(new Intent(getActivity(), SecondScreen.class));
+                        startActivity(new Intent(getActivity(), ActivityPhoneVerification.class));
                         getActivity().finish();
                     }
                 });
