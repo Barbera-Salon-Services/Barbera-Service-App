@@ -56,9 +56,6 @@ public class Register {
         this.address = address;
     }
 
-    public Register(String otp){
-        this.otp=otp;
-    }
 
     public double getLatitude() {
         return latitude;
