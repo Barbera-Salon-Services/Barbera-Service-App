@@ -31,6 +31,10 @@ public class BookingModel {
         this.mode=mode;
     }
 
+    public void setStatus(String status) {
+        this.status = status;
+    }
+
     public String getMode() {
         return mode;
     }

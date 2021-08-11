@@ -45,8 +45,6 @@ import retrofit2.Callback;
 import retrofit2.Response;
 import retrofit2.Retrofit;
 
-import static io.realm.Realm.getApplicationContext;
-
 public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
     private List<BookingModel> bookingItemList;
     private  Context context;
@@ -129,17 +127,19 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
                                 holder.enterOtp.setHint("Enter end otp");
                                 holder.status.setVisibility(View.VISIBLE);
                                 holder.status.setText("Ongoing");
+                                bookingItem.setStatus("ongoing");
+                                BookingFragment.adapter.notifyDataSetChanged();
                                 progressDialog.dismiss();
                             } else {
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Wrong otp entered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context, "Wrong otp entered", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Success> call, Throwable t) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -162,18 +162,20 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
                                 holder.enterOtp.setVisibility(View.INVISIBLE);
                                 holder.barberLeft.setVisibility(View.INVISIBLE);
                                 holder.status.setText("Completed");
+                                bookingItem.setStatus("done");
+                                BookingFragment.adapter.notifyDataSetChanged();
                                 progressDialog.dismiss();
                             }
                             else{
                                 progressDialog.dismiss();
-                                Toast.makeText(getApplicationContext(), "Wrong otp entered", Toast.LENGTH_SHORT).show();
+                                Toast.makeText(context,"Wrong otp entered", Toast.LENGTH_SHORT).show();
                             }
                         }
 
                         @Override
                         public void onFailure(Call<Success> call, Throwable t) {
                             progressDialog.dismiss();
-                            Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                            Toast.makeText(context, t.getMessage(), Toast.LENGTH_SHORT).show();
                         }
                     });
                 }
@@ -210,7 +212,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         return bookingItemList.size();
     }
 
-    public static class BookingItemHolder extends RecyclerView.ViewHolder {
+    public class BookingItemHolder extends RecyclerView.ViewHolder {
         private TextView address;
         private TextView service;
         private TextView amount;

@@ -72,7 +72,7 @@ public class LiveLocationWork extends Worker {
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(10000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(5); // 500 meters minimum displacement for new location request
+        locationRequest.setSmallestDisplacement(400); // 500 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
         runLongLoop();
         return Result.success();
@@ -81,19 +81,19 @@ public class LiveLocationWork extends Worker {
         Thread thread = new Thread() {
             public void run() {
                 Looper.prepare();
-//                Handler mHandler = new Handler();
-//                mHandler.postDelayed(new Runnable() {
-//                    @Override
-//                    public void run() {
+                Handler mHandler = new Handler();
+                mHandler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
                         Calendar rightNow = Calendar.getInstance();
                         int currentHourIn24Format = rightNow.get(Calendar.HOUR_OF_DAY);
                         Log.d("cur",currentHourIn24Format+"");
                         if(currentHourIn24Format>=6 && currentHourIn24Format<=18){
                             runTimer();
-                            //runLongLoop();
+                            runLongLoop();
                         }
-//                    }
-//                }, 60000);
+                    }
+                }, 300000);
                 Looper.loop();
             }
         };

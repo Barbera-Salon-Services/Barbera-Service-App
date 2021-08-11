@@ -18,7 +18,6 @@
         android:layout_marginTop="40dp"
         android:layout_marginEnd="40dp"
         android:layout_marginRight="40dp"
-        android:layout_marginBottom="40dp"
         android:padding="40sp"
         android:src="@drawable/barberawhite" />
 
@@ -31,15 +30,18 @@
         android:layout_marginRight="40dp"
         android:gravity="center_horizontal"
         android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="@color/cardBkg">
 
         <TextView
             android:id="@+id/phone_number_text"
-            style="@style/SignUpPage"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
             android:gravity="center"
-            android:paddingTop="60sp"
             android:text="Enter phone number"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -48,14 +50,12 @@
 
         <com.mukesh.OtpView
             android:id="@+id/phone"
-            style="@style/SignUpPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:hint="Phone Number"
             android:inputType="phone"
-            android:paddingTop="60sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:visibility="gone"
@@ -64,9 +64,8 @@
             app:OtpLineColor="@color/white"
             app:OtpLineWidth="2dp"
             app:OtpViewType="line" />
+        </androidx.cardview.widget.CardView>
     </LinearLayout>
-
-
 
 
     <ImageView
@@ -116,15 +115,18 @@
         android:layout_below="@id/phone_wrapper"
         android:gravity="center"
         android:orientation="horizontal">
+        <androidx.cardview.widget.CardView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:cardCornerRadius="20dp"
+            android:backgroundTint="@color/cardBkg">
 
         <TextView
             android:id="@+id/veri_code_textview"
-            style="@style/SignUpPage"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:ems="10"
             android:gravity="center"
-            android:paddingTop="60sp"
             android:text="Enter OTP"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
@@ -133,13 +135,11 @@
 
         <com.mukesh.OtpView
             android:id="@+id/veri_code"
-            style="@style/SignUpPage"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:ems="10"
-            android:gravity="center_horizontal"
+            android:layout_gravity="center_horizontal"
             android:inputType="phone"
-            android:paddingTop="60sp"
             android:textColor="@color/white"
             android:textColorHint="@color/white"
             android:visibility="gone"
@@ -148,6 +148,7 @@
             app:OtpLineColor="@color/white"
             app:OtpLineWidth="2dp"
             app:OtpViewType="line" />
+        </androidx.cardview.widget.CardView>
         <!--            <EditText-->
         <!--                style="@style/SignUpPage"-->
         <!--                android:layout_width="match_parent"-->
