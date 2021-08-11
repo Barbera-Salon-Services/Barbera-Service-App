@@ -37,7 +37,7 @@
 //
 //import static com.barbera.barberaserviceapp.ui.service.ServiceActivity.timerRunning;
 //
-public class MyBookingsAdapter {
+//public class MyBookingsAdapter {
 // extends RecyclerView.Adapter<MyBookingsAdapter.MyBookingItemHolder> {
 //    private List<BookingItem> bookingItemList;
 //    private Context context;
@@ -230,4 +230,4 @@ public class MyBookingsAdapter {
 //
 //        }
 //    }
-}
+//}

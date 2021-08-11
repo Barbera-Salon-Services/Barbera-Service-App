@@ -16,31 +16,43 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.profile.ItemList"></activity>
-        <activity android:name=".ui.CheckUser" />
+        <activity android:name=".ui.profile.ItemList" />
         <activity android:name=".ui.servicedetails.Payments" />
         <activity android:name=".ui.servicedetails.VehicleDetails" />
         <activity android:name=".ui.servicedetails.PersonalDocuments" />
         <activity android:name=".ui.servicedetails.PersonalDetails" />
-        <activity android:name=".ui.service.ImageVerifyActivity" />
-        <activity
-            android:name=".ui.service.ServiceActivity"
-            android:screenOrientation="portrait"
-            android:theme="@style/AppTheme" />
-        <activity
-            android:name=".ui.login.LoginActivity"
-            android:screenOrientation="portrait" />
+
+        <receiver
+            android:name=".Restarter"
+            android:enabled="true"
+            android:exported="true">
+            <intent-filter>
+                <action android:name="restartservice" />
+            </intent-filter>
+        </receiver>
+
         <activity
             android:name=".MainActivity"
-            android:screenOrientation="portrait" />
+            android:screenOrientation="portrait"
+            android:configChanges="screenSize|smallestScreenSize|screenLayout|orientation"
+            android:exported="true"
+            android:supportsPictureInPicture="true">
+            <intent-filter>
+                <action android:name="OPEN_BOOKING_ACTIVITY" />
+
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+        </activity>
+
         <service android:name=".NotificationService">
             <intent-filter>
                 <action android:name="com.google.firebase.INSTANCE_ID_EVENT" />
             </intent-filter>
             <intent-filter>
-                <action android:name="com.google.firebase.MESSAGING_EVENT"/>
+                <action android:name="com.google.firebase.MESSAGING_EVENT" />
             </intent-filter>
         </service>
+
         <activity
             android:name=".SecondScreen"
             android:screenOrientation="portrait" />
@@ -58,8 +70,15 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".LiveLocationService" />
-        <service android:name=".ScheduleService"/>
+<!--        <receiver android:name=".ExampleAppWidgetProvider">-->
+<!--            <intent-filter>-->
+<!--                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />-->
+<!--            </intent-filter>-->
+
+<!--            <meta-data-->
+<!--                android:name="android.appwidget.provider"-->
+<!--                android:resource="@xml/widget" />-->
+<!--        </receiver>-->
     </application>
 
 </manifest>

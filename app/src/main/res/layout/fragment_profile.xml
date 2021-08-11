@@ -98,15 +98,17 @@
 			android:layout_below="@id/contact_rel_layout"
 			android:foreground="?android:attr/selectableItemBackground"
 			android:clickable="true">
+
 		<TextView
-				android:layout_width="wrap_content"
-				android:layout_height="wrap_content"
-				android:text="Total Trips: -"
-				android:textAllCaps="true"
-				android:layout_margin="25dp"
-				android:textSize="20sp"
-				android:textColor="@color/colorAccent"
-				android:textStyle="bold"/>
+			android:layout_width="wrap_content"
+			android:layout_height="wrap_content"
+			android:layout_margin="25dp"
+			android:text="Total Trips: -"
+			android:textAllCaps="true"
+			android:textColor="@color/colorAccent"
+			android:textSize="20sp"
+			android:textStyle="bold" />
+
 		<TextView
 				android:id="@+id/trip"
 				android:layout_width="wrap_content"
@@ -118,36 +120,44 @@
 				android:textSize="20sp"
 				android:textColor="@color/colorAccent"/>
 	</LinearLayout>
-<!--	<LinearLayout-->
-<!--			android:id="@+id/about"-->
-<!--			android:layout_width="match_parent"-->
-<!--			android:layout_height="wrap_content"-->
-<!--			android:orientation="horizontal"-->
-<!--			android:layout_below="@id/trips"-->
-<!--			android:foreground="?android:attr/selectableItemBackground"-->
-<!--			android:clickable="true">-->
-<!--		<TextView-->
-<!--				android:layout_width="wrap_content"-->
-<!--				android:layout_height="wrap_content"-->
-<!--				android:text="Total Earnings: -"-->
-<!--				android:textAllCaps="true"-->
-<!--				android:layout_margin="25dp"-->
-<!--				android:textSize="20sp"-->
-<!--				android:textColor="@color/colorAccent"-->
-<!--				android:textStyle="bold"/>-->
-<!--		<TextView-->
-<!--				android:id="@+id/earning"-->
-<!--				android:layout_width="wrap_content"-->
-<!--				android:layout_height="wrap_content"-->
-<!--				android:layout_marginTop="25dp"-->
-<!--				android:text="100"-->
-<!--				android:visibility="invisible"-->
-<!--				android:textStyle="bold"-->
-<!--				android:textSize="20sp"-->
-<!--				android:textColor="@color/colorAccent"/>-->
-<!--	</LinearLayout>-->
 	<LinearLayout
+			android:id="@+id/coins"
+			android:layout_width="match_parent"
+			android:layout_height="wrap_content"
+			android:orientation="horizontal"
+			android:layout_below="@id/trips"
+			android:foreground="?android:attr/selectableItemBackground"
+			android:clickable="true">
+		<TextView
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:text="Total Coins: -"
+				android:textAllCaps="true"
+				android:layout_margin="25dp"
+				android:textSize="20sp"
+				android:textColor="@color/colorAccent"
+				android:textStyle="bold"/>
+		<TextView
+				android:id="@+id/coins_text"
+				android:layout_width="wrap_content"
+				android:layout_height="wrap_content"
+				android:layout_marginTop="25dp"
+				android:visibility="visible"
+				android:textStyle="bold"
+				android:textSize="20sp"
+				android:textColor="@color/colorAccent"/>
+	</LinearLayout>
+	<TextView
+		android:layout_width="match_parent"
+		android:layout_height="wrap_content"
+		android:layout_margin="10dp"
+		android:text="You need atleast 300 coins to be considered for booking. If you have less please contact your superior."
+		android:textColor="@color/CartBlack"
+		android:layout_below="@+id/coins"
+		android:textSize="18sp"/>
 
+	<LinearLayout
+		android:visibility="gone"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
