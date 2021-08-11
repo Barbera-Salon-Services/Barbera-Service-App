@@ -4,18 +4,15 @@ import com.barbera.barberaserviceapp.ScheduleList;
 import com.barbera.barberaserviceapp.Utils.CoinsItem;
 import com.barbera.barberaserviceapp.Utils.OtpItem;
 import com.barbera.barberaserviceapp.ui.bookings.BookingList;
-import com.barbera.barberaserviceapp.ui.service.ServiceItem;
-import com.barbera.barberaserviceapp.ui.service.ServiceList;
+import com.barbera.barberaserviceapp.ui.profile.ItemList;
+import com.barbera.barberaserviceapp.ui.profile.ItemsActivity;
 import com.barbera.barberaserviceapp.ui.service.Success;
-import com.google.gson.annotations.SerializedName;
 
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
 import retrofit2.http.POST;
-import retrofit2.http.Path;
-import retrofit2.http.Query;
 
 public interface JsonPlaceHolderApi {
     @POST("loginphone")
@@ -47,4 +44,7 @@ public interface JsonPlaceHolderApi {
 
     @POST("dismode")
     Call<Void> barberLeft(@Body OtpItem userId,@Header("Authorization") String token);
+
+    @POST("getitems")
+    Call<ItemList> getItems(@Header("Authorization") String token);
 }

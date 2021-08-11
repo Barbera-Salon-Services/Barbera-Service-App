@@ -108,7 +108,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         holder.service.setText(bookingItem.getSummary());
         holder.amount.setText(bookingItem.getAmount()+"");
         holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");
-        holder.distance.setText(String.format("%.2f",(bookingItem.getDistance()*1000))+"m");
+        holder.distance.setText(String.format("%.2f",bookingItem.getDistance())+"km");
 
         holder.start.setOnClickListener(v -> {
             if(bookingItem.getStatus().equals("pending")){

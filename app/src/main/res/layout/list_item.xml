@@ -1,22 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
 
-    <!--<LinearLayout-->
-    <!--    android:layout_width="match_parent"-->
-    <!--    android:layout_height="match_parent"-->
-    <!--    android:orientation="vertical"-->
-    <!--    tools:context=".ui.profile.ItemList">-->
-
-    <!--    <TextView-->
-    <!--        android:layout_width="match_parent"-->
-    <!--        android:layout_height="wrap_content"-->
-    <!--        android:gravity="center"-->
-    <!--        android:textStyle="bold"-->
-    <!--        android:textSize="30dp"-->
-    <!--        android:layout_margin="25dp"-->
-    <!--        android:textColor="@color/colorAccent"-->
-    <!--        android:textAllCaps="true"-->
-    <!--        android:text="List of items taken"-->
-    <!--        />-->
     <androidx.cardview.widget.CardView
         xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -29,495 +12,523 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical">
-
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
-                <LinearLayout
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:id="@+id/apronT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Apron"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
-
-                    <TextView
-                        android:id="@+id/apron"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="5"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
-
-                </LinearLayout>
-                <LinearLayout
+                    android:textSize="20dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/item_name"
+                    android:textColor="@color/CartBlack"
+                    android:layout_weight="1"/>
+                <TextView
                     android:layout_width="0dp"
-                    android:layout_weight="1"
                     android:layout_height="wrap_content"
-                    android:orientation="horizontal">
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Carpet"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:id="@+id/carpetT"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:id="@+id/carpet"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
-
-                </LinearLayout>
+                    android:textSize="20dp"
+                    android:layout_margin="10dp"
+                    android:id="@+id/item_quantity"
+                    android:textColor="@color/CartBlack"
+                    android:layout_weight="1"/>
             </LinearLayout>
-            <LinearLayout
+            <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+                android:id="@+id/item_date"
+                android:layout_margin="10dp"
+                android:textColor="@color/CartBlack"
+                android:textSize="20dp"/>
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Disposable"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/disposableT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/disposable"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                    <TextView-->
+<!--                        android:id="@+id/apronT"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="Apron"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Mirror"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/mirrorT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:id="@+id/mirror"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/apron"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="5"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible" />-->
 
-                </LinearLayout>
-            </LinearLayout>
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Carpet"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:id="@+id/carpetT"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:id="@+id/carpet"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:id="@+id/necktapeT"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:text="Neck Tape"
-                        android:textAllCaps="true"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Disposable"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/disposableT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:id="@+id/disposable"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                    <TextView
-                        android:id="@+id/necktape"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:text="5"
-                        android:textColor="@color/colorAccent"
-                        android:textSize="12sp"
-                        android:textStyle="bold"
-                        android:visibility="visible" />
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Mirror"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/mirrorT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:id="@+id/mirror"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="T-Shirt"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/tshirtT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:id="@+id/tshirt"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
 
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tissue"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/tissueT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:id="@+id/tissue"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:id="@+id/necktapeT"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="Neck Tape"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible" />-->
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                    <TextView-->
+<!--                        android:id="@+id/necktape"-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:text="5"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textStyle="bold"-->
+<!--                        android:visibility="visible" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Tripod"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/tripodT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:id="@+id/tripod"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                </LinearLayout>-->
 
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="After Lotion"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:id="@+id/afterlotionT"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:id="@+id/afterlotion"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="T-Shirt"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/tshirtT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:id="@+id/tshirt"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Bag"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:id="@+id/bagT"
-                        android:textAllCaps="true"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:id="@+id/bag"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Tissue"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/tissueT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:id="@+id/tissue"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Cleansing Cream"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:id="@+id/cleansingcreamT"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/cleansingcream"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Tripod"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/tripodT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:id="@+id/tripod"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Shaving Apron"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:id="@+id/shavingapronT"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:id="@+id/shavingapron"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="After Lotion"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:id="@+id/afterlotionT"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:id="@+id/afterlotion"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                </LinearLayout>
-            </LinearLayout>
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_weight="1"
-                    android:layout_height="wrap_content"
-                    android:orientation="horizontal">
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Bag"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:id="@+id/bagT"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:id="@+id/bag"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Shaving foam"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:id="@+id/shavingfoamT"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/shavingfoam"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
 
-                </LinearLayout>
-            </LinearLayout>
-            <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
-                <LinearLayout
-                    android:layout_width="0dp"
-                    android:layout_height="wrap_content"
-                    android:layout_weight="1"
-                    android:orientation="horizontal">
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Date:"
-                        android:layout_marginStart="25dp"
-                        android:layout_marginTop="10dp"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textAllCaps="true"
-                        android:id="@+id/date"
-                        android:textStyle="bold" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="5"
-                        android:layout_marginStart="10dp"
-                        android:layout_marginTop="10dp"
-                        android:id="@+id/date_of_item"
-                        android:textSize="12sp"
-                        android:textColor="@color/colorAccent"
-                        android:visibility="visible"
-                        android:textStyle="bold" />
-                </LinearLayout>
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Cleansing Cream"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:id="@+id/cleansingcreamT"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:id="@+id/cleansingcream"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
 
-                <Button
-                    android:id="@+id/ok_btn"
-                    android:layout_width="0dp"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:background="@color/colorAccent"
-                    android:text="OK"
-                    android:textColor="@color/white"
-                    android:textSize="12dp" />
-            </LinearLayout>
+<!--                </LinearLayout>-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Shaving Apron"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:id="@+id/shavingapronT"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:id="@+id/shavingapron"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
+
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:orientation="horizontal">-->
+
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Shaving foam"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:id="@+id/shavingfoamT"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:id="@+id/shavingfoam"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
+
+<!--                </LinearLayout>-->
+<!--            </LinearLayout>-->
+<!--            <LinearLayout-->
+<!--                android:layout_width="match_parent"-->
+<!--                android:layout_height="wrap_content"-->
+<!--                android:orientation="horizontal">-->
+<!--                <LinearLayout-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="wrap_content"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:orientation="horizontal">-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="Date:"-->
+<!--                        android:layout_marginStart="25dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textAllCaps="true"-->
+<!--                        android:id="@+id/date"-->
+<!--                        android:textStyle="bold" />-->
+<!--                    <TextView-->
+<!--                        android:layout_width="wrap_content"-->
+<!--                        android:layout_height="wrap_content"-->
+<!--                        android:text="5"-->
+<!--                        android:layout_marginStart="10dp"-->
+<!--                        android:layout_marginTop="10dp"-->
+<!--                        android:id="@+id/date_of_item"-->
+<!--                        android:textSize="12sp"-->
+<!--                        android:textColor="@color/colorAccent"-->
+<!--                        android:visibility="visible"-->
+<!--                        android:textStyle="bold" />-->
+<!--                </LinearLayout>-->
+
+<!--                <Button-->
+<!--                    android:id="@+id/ok_btn"-->
+<!--                    android:layout_width="0dp"-->
+<!--                    android:layout_height="match_parent"-->
+<!--                    android:layout_weight="1"-->
+<!--                    android:background="@color/colorAccent"-->
+<!--                    android:text="OK"-->
+<!--                    android:textColor="@color/white"-->
+<!--                    android:textSize="12dp" />-->
+<!--            </LinearLayout>-->
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>

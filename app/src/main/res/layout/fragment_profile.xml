@@ -153,15 +153,15 @@
 		android:layout_margin="10dp"
 		android:text="You need atleast 300 coins to be considered for booking. If you have less please contact your superior."
 		android:textColor="@color/CartBlack"
+		android:id="@+id/coins_info"
 		android:layout_below="@+id/coins"
 		android:textSize="18sp"/>
 
 	<LinearLayout
-		android:visibility="gone"
 		android:layout_width="match_parent"
 		android:layout_height="wrap_content"
 		android:orientation="horizontal"
-		android:layout_below="@id/trips"
+		android:layout_below="@id/coins_info"
 		android:foreground="?android:attr/selectableItemBackground"
 		android:clickable="true">
 		<Button

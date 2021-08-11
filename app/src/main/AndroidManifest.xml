@@ -16,7 +16,7 @@
         android:roundIcon="@drawable/logo"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".ui.profile.ItemList" />
+        <activity android:name=".ui.profile.ItemsActivity" />
         <activity android:name=".ui.servicedetails.Payments" />
         <activity android:name=".ui.servicedetails.VehicleDetails" />
         <activity android:name=".ui.servicedetails.PersonalDocuments" />

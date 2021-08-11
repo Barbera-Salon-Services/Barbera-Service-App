@@ -81,7 +81,7 @@ public class ProfileFragment extends Fragment {
        });
 
        items.setOnClickListener(v -> {
-           Intent intent = new Intent(getActivity(),ItemList.class);
+           Intent intent = new Intent(getActivity(), ItemsActivity.class);
            startActivity(intent);
        });
 

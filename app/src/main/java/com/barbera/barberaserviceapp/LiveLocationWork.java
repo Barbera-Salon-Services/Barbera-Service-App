@@ -70,9 +70,9 @@ public class LiveLocationWork extends Worker {
         mFusedLocationClient = LocationServices.getFusedLocationProviderClient(getApplicationContext());
         //Log.d("on","oncreate");
         locationRequest = LocationRequest.create();
-        locationRequest.setInterval(5000); // 5 second delay between each request
+        locationRequest.setInterval(10000); // 5 second delay between each request
         locationRequest.setFastestInterval(5000); // 5 seconds fastest time in between each request
-        locationRequest.setSmallestDisplacement(400); // 500 meters minimum displacement for new location request
+        locationRequest.setSmallestDisplacement(5); // 500 meters minimum displacement for new location request
         locationRequest.setPriority(LocationRequest.PRIORITY_HIGH_ACCURACY); // enables GPS high accuracy location requests
         runLongLoop();
         return Result.success();
