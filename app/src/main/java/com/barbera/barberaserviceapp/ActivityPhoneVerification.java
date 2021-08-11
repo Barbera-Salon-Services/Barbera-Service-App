@@ -4,6 +4,7 @@ import android.Manifest;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
@@ -14,6 +15,7 @@ import android.location.Geocoder;
 import android.location.Location;
 import android.location.LocationListener;
 import android.location.LocationManager;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Looper;
@@ -30,6 +32,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
 import androidx.core.app.ActivityCompat;
@@ -444,6 +447,31 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             }
         }
     }
+    private void displayNeverAskAgainDialog() {
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setMessage("We need to send SMS for performing necessary task. Please permit the permission through "
+                + "Settings screen.\n\nSelect Permissions -> Enable permission");
+        builder.setCancelable(false);
+        builder.setPositiveButton("Permit Manually", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                dialog.dismiss();
+                Intent intent = new Intent();
+                intent.setAction(android.provider.Settings.ACTION_APPLICATION_DETAILS_SETTINGS);
+                Uri uri = Uri.fromParts("package", getPackageName(), null);
+                intent.setData(uri);
+                startActivity(intent);
+            }
+        });
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Toast.makeText(getApplicationContext(), "App will not work unless location permission is provided from settings", Toast.LENGTH_SHORT).show();
+                //login.setEnabled(false);
+            }
+        });
+        builder.show();
+    }
 
     private boolean isLocationEnabled() {
         LocationManager locationManager =(LocationManager)getSystemService(LOCATION_SERVICE);
@@ -458,9 +486,17 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                 startActivity(new Intent(this, ActivityPhoneVerification.class));
             }
             else if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED){
-                //displayNeverAskAgainDialog();
-
+                displayNeverAskAgainDialog();
             }
+        }
+    }
+    @Override
+    protected void onStart() {
+        super.onStart();
+        SharedPreferences preferences = getSharedPreferences("Token", MODE_PRIVATE);
+        String isRegistered = preferences.getString("token", "no");
+        if (!isRegistered.equals("no")) {
+            startActivity(new Intent(this, MainActivity.class));
         }
     }
 
