@@ -124,7 +124,7 @@
         <TextView
             android:id="@+id/veri_code_textview"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="50dp"
             android:ems="10"
             android:gravity="center"
             android:text="Enter OTP"
@@ -183,6 +183,29 @@
     <!--                android:textSize="20sp"-->
     <!--                android:textStyle="bold" />-->
     <!--        </androidx.cardview.widget.CardView>-->
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Male"
+        android:layout_below="@id/veri_code_wrapper"
+        android:textSize="20sp"
+        android:textColor="@color/white"
+        android:visibility="gone"
+        android:buttonTint="@color/white"
+        android:layout_margin="20dp"
+        android:id="@+id/male_check"/>
+    <CheckBox
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="Female"
+        android:layout_below="@id/male_check"
+        android:textSize="20sp"
+        android:buttonTint="@color/white"
+        android:backgroundTint="@color/white"
+        android:visibility="gone"
+        android:textColor="@color/white"
+        android:layout_margin="20dp"
+        android:id="@+id/female_check"/>
 
     <ProgressBar
         android:id="@+id/progressBarInVerificationPage"

@@ -21,26 +21,26 @@ public class Register {
     @SerializedName("otp")
     private String otp;
 
-    @SerializedName("email")
-    private String email;
+    @SerializedName("gender")
+    private String gender;
 
     @SerializedName("name")
     private String name;
 
     @SerializedName("password")
     private String password;
-
     @SerializedName("address")
     private String address;
-
     @SerializedName("role")
     private String role;
+    @SerializedName("first")
+    private boolean first;
 
-    public Register(String phone, String otp, String email, String name, String password,
-                    String address, String role, String message, double latitude, double longitude) {
+    public Register(String phone, String otp, String gender, String name, String password, String address, String role,
+                    String message, double latitude, double longitude,boolean first) {
         this.phone = phone;
         this.otp = otp;
-        this.email = email;
+        this.gender = gender;
         this.name = name;
         this.password = password;
         this.address = address;
@@ -48,6 +48,10 @@ public class Register {
         this.message=message;
         this.latitude=latitude;
         this.longitude=longitude;
+    }
+
+    public boolean isFirst() {
+        return first;
     }
 
     public Register(double latitude, double longitude, String address) {
@@ -89,8 +93,8 @@ public class Register {
         return otp;
     }
 
-    public String getEmail() {
-        return email;
+    public String getGender() {
+        return gender;
     }
 
     public String getName() {

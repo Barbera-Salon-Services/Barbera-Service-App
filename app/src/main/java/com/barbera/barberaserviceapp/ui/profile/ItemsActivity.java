@@ -58,10 +58,15 @@ public class ItemsActivity extends AppCompatActivity {
                 if(response.code()==200){
                     ItemList itemList=response.body();
                     List<ItemModel> list=itemList.getList();
-                    for(ItemModel model:list){
-                        itemModelList.add(model);
+                    if(list.size()==0){
+                        Toast.makeText(getApplicationContext(),"No items issued",Toast.LENGTH_SHORT).show();
                     }
-                    recyclerView.setAdapter(adapter);
+                    else{
+                        for(ItemModel model:list){
+                            itemModelList.add(model);
+                        }
+                        recyclerView.setAdapter(adapter);
+                    }
                 }
                 else{
                     Toast.makeText(getApplicationContext(),"Could not load item list",Toast.LENGTH_SHORT).show();

@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.inputmethod.InputMethodManager;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -85,6 +86,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     private String phonePattern;
     private Handler mHandler;
     private Runnable mRunnable;
+    private CheckBox maleCheck,femaleCheck;
+    private boolean first=false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -93,6 +96,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
 
         phoneNumberOtpView = (OtpView) findViewById(R.id.phone);
         phoneNumberText = (TextView) findViewById(R.id.phone_number_text);
+        maleCheck=findViewById(R.id.male_check);
+        femaleCheck=findViewById(R.id.female_check);
         //get_code = (CardView) findViewById(R.id.get_code);
         veri_code = (EditText) findViewById(R.id.veri_code);
         //continue_to_signup = findViewById(R.id.continue_to_signup_page);
@@ -104,6 +109,21 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
 
         handleAnimation();
+
+        maleCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                maleCheck.setChecked(true);
+                femaleCheck.setChecked(false);
+            }
+        });
+        femaleCheck.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                maleCheck.setChecked(false);
+                femaleCheck.setChecked(true);
+            }
+        });
 
         locationRequest = LocationRequest.create();
         locationRequest.setInterval(500);
@@ -299,45 +319,63 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi.class);
         //Toast.makeText(getApplicationContext(), address.getAddressLine(0), Toast.LENGTH_SHORT).show();
-        Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), null, null, null,
-                address.getAddressLine(0), "barber", null, address.getLatitude(), address.getLongitude()), "Bearer "+tempToken);
+        int flag=0;
+        if(first){
+            if(!(maleCheck.isChecked() || femaleCheck.isChecked())){
+                flag=1;
+            }
+        }
+        if(flag==1){
+            progressDialog.dismiss();
+            Toast.makeText(getApplicationContext(), "Please select your gender", Toast.LENGTH_SHORT).show();
+        }
+        else{
+            String a="";
+            if(maleCheck.isChecked()){
+                a="male";
+            }
+            else{
+                a="female";
+            }
+            Call<Register> call = jsonPlaceHolderApi2.checkOtp(new Register(null, veri_code.getText().toString(), a, null, null,
+                    address.getAddressLine(0), "barber", null, address.getLatitude(), address.getLongitude(),false), "Bearer "+tempToken);
+            call.enqueue(new Callback<Register>() {
+                @Override
+                public void onResponse(Call<Register> call, Response<Register> response) {
+                    if (response.code() == 200) {
+                        //Log.d(TAG, "onresponse matehdo called"+response.code());
+                        SharedPreferences sharedPreferences1=getSharedPreferences("Profile",MODE_PRIVATE);
+                        SharedPreferences.Editor editor1=sharedPreferences1.edit();
+                        editor1.putString("address",address.getAddressLine(0));
+                        editor1.apply();
+                        //sendToastmsg(address.getAddressLine(0));
+                        Register register = response.body();
+                        SharedPreferences sharedPreferences = getSharedPreferences("Token", MODE_PRIVATE);
+                        SharedPreferences.Editor editor = sharedPreferences.edit();
+                        editor.putString("token", register.getToken());
+                        editor.apply();
+                        FirebaseMessaging.getInstance().subscribeToTopic(phoneNumberValue).addOnSuccessListener(new OnSuccessListener<Void>() {
+                            @Override
+                            public void onSuccess(Void unused) {
 
-        call.enqueue(new Callback<Register>() {
-            @Override
-            public void onResponse(Call<Register> call, Response<Register> response) {
-                if (response.code() == 200) {
-                    //Log.d(TAG, "onresponse matehdo called"+response.code());
-                    SharedPreferences sharedPreferences1=getSharedPreferences("Profile",MODE_PRIVATE);
-                    SharedPreferences.Editor editor1=sharedPreferences1.edit();
-                    editor1.putString("address",address.getAddressLine(0));
-                    editor1.apply();
-                    //sendToastmsg(address.getAddressLine(0));
-                    Register register = response.body();
-                    SharedPreferences sharedPreferences = getSharedPreferences("Token", MODE_PRIVATE);
-                    SharedPreferences.Editor editor = sharedPreferences.edit();
-                    editor.putString("token", register.getToken());
-                    editor.apply();
-                    FirebaseMessaging.getInstance().subscribeToTopic(phoneNumberValue).addOnSuccessListener(new OnSuccessListener<Void>() {
-                        @Override
-                        public void onSuccess(Void unused) {
-
-                        }
-                    });
-                    Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
-                    startActivity(intent);
-                    progressDialog.dismiss();
-                } else {
-                    progressDialog.dismiss();
-                    Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                        Intent intent = new Intent(ActivityPhoneVerification.this, MainActivity.class);
+                        startActivity(intent);
+                        progressDialog.dismiss();
+                    } else {
+                        progressDialog.dismiss();
+                        Toast.makeText(getApplicationContext(), "Request not sent", Toast.LENGTH_SHORT).show();
+                    }
                 }
-            }
 
-            @Override
-            public void onFailure(Call<Register> call, Throwable t) {
-                progressDialog.dismiss();
-                Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
-            }
-        });
+                @Override
+                public void onFailure(Call<Register> call, Throwable t) {
+                    progressDialog.dismiss();
+                    Toast.makeText(getApplicationContext(), t.getMessage(), Toast.LENGTH_SHORT).show();
+                }
+            });
+        }
     }
 
     private boolean verifyUserOTP() {
@@ -365,7 +403,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         progressDialog.show();
         Retrofit retrofit = RetrofitClientInstanceUser.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi2 = retrofit.create(JsonPlaceHolderApi.class);
-        Call<Register> call=jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, 0.0, 0.0));
+        Call<Register> call=jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, 0.0, 0.0,false));
 //        Call<Register> call = jsonPlaceHolderApi2.getToken(new Register(phoneNumberValue, null, null, null, null, null, null, null, null, 0.0, 0.0));
         call.enqueue(new Callback<Register>() {
             @Override
@@ -375,6 +413,14 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
                     tempToken = register.getToken();
                     enterOtpTextView.setVisibility(View.GONE);
                     otpView.setVisibility(View.VISIBLE);
+                    if(register.isFirst()){
+                        maleCheck.setVisibility(View.VISIBLE);
+                        femaleCheck.setVisibility(View.VISIBLE);
+                        first=true;
+                    }
+                    else{
+                        first=false;
+                    }
 //                    continue_to_signup.setVisibility(View.VISIBLE);
 //                    get_code.setVisibility(View.GONE);
                     phoneNumberOtpView.setVisibility(View.GONE);

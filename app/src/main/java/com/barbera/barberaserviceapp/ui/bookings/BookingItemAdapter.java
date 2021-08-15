@@ -164,6 +164,35 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
                                 holder.status.setText("Completed");
                                 bookingItem.setStatus("done");
                                 BookingFragment.adapter.notifyDataSetChanged();
+                                int amt = bookingItem.getAmount();
+                                SharedPreferences sharedPreferences=context.getSharedPreferences("ServiceInfo",context.MODE_PRIVATE);
+                                SharedPreferences.Editor editor=sharedPreferences.edit();
+                                int pay= sharedPreferences.getInt("payment",0);
+                                int trip= sharedPreferences.getInt("trips",0);
+                                int points = sharedPreferences.getInt("points",0);
+                                editor.putInt("payment",pay+amt);
+                                editor.putInt("trips",trip+1);
+                                if(trip>=3 && trip<5){
+                                    points = points+5;
+                                    editor.putInt("points",points);
+                                }
+                                else if(trip>=5 && trip<7){
+                                    points += 10;
+                                    editor.putInt("points",points);
+                                }
+                                else if(trip>=7 && trip<10){
+                                    points+=25;
+                                    editor.putInt("points",points+25);
+                                }
+                                else if(trip>=10){
+                                    points+=50;
+                                    editor.putInt("points",points);
+                                }
+                                else {
+                                    points+=2;
+                                    editor.putInt("points", points);
+                                }
+                                editor.apply();
                                 progressDialog.dismiss();
                             }
                             else{
