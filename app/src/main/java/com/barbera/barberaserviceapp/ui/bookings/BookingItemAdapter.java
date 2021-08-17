@@ -49,7 +49,6 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
     private List<BookingModel> bookingItemList;
     private  Context context;
 
-
     public BookingItemAdapter(List<BookingModel> booking, Context context){
         this.bookingItemList = booking;
         this.context = context;

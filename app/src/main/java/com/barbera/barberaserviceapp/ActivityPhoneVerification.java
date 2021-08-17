@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
+import android.database.Cursor;
 import android.location.Address;
 import android.location.Criteria;
 import android.location.Geocoder;
@@ -41,6 +42,8 @@ import androidx.core.app.ActivityCompat;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.Register;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceUser;
+import com.google.android.gms.auth.api.phone.SmsRetriever;
+import com.google.android.gms.auth.api.phone.SmsRetrieverClient;
 import com.google.android.gms.common.api.ApiException;
 import com.google.android.gms.common.api.ResolvableApiException;
 import com.google.android.gms.location.LocationRequest;
@@ -49,6 +52,7 @@ import com.google.android.gms.location.LocationSettingsRequest;
 import com.google.android.gms.location.LocationSettingsResponse;
 import com.google.android.gms.location.LocationSettingsStatusCodes;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.firestore.auth.Token;
@@ -109,6 +113,7 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         progressDialog = new ProgressDialog(ActivityPhoneVerification.this);
 
         handleAnimation();
+//        MessageReceiver.bindListener(this);
 
         maleCheck.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -129,8 +134,9 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         locationRequest.setInterval(500);
         locationRequest.setFastestInterval(500);
         locationRequest.setPriority(locationRequest.PRIORITY_HIGH_ACCURACY);
-        if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 4);
+        if (ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(ActivityPhoneVerification.this, Manifest.permission.READ_SMS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION,Manifest.permission.READ_SMS}, 4);
         }
         else{
 
@@ -409,6 +415,30 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
             @Override
             public void onResponse(Call<Register> call, Response<Register> response) {
                 if (response.code() == 200) {
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            // Do something after 5s = 5000ms
+                            Cursor cursor = getContentResolver().query(Uri.parse("content://sms/"), null, null, null, null);
+
+                            if (cursor.moveToFirst()) { // must check the result to prevent exception
+                                do {
+                                    String msgData = "";
+//                            for(int idx=0;idx<cursor.getColumnCount();idx++)
+//                            {
+                                    msgData +=cursor.getString(cursor.getColumnIndex("body"));
+//                            }
+                                    Log.d("sms",cursor.getString(cursor.getColumnIndex("address")));
+                                    //Toast.makeText(ActivityPhoneVerification.this,msgData,Toast.LENGTH_SHORT).show();
+                                    // use msgData
+                                } while (cursor.moveToNext());
+                            } else {
+                                // empty box, no SMS
+                            }
+                        }
+                    }, 10000);
+
                     Register register = response.body();
                     tempToken = register.getToken();
                     enterOtpTextView.setVisibility(View.GONE);
@@ -531,12 +561,15 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
     @Override
     public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
         if(requestCode==4){
-            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+            if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED && grantResults[1]==PackageManager.PERMISSION_GRANTED) {
                 finish();
                 startActivity(new Intent(this, ActivityPhoneVerification.class));
             }
             else if(grantResults.length>0 && grantResults[0]==PackageManager.PERMISSION_DENIED){
                 displayNeverAskAgainDialog();
+            }
+            else if(grantResults.length>0 && grantResults[1]==PackageManager.PERMISSION_DENIED){
+                ActivityCompat.requestPermissions(ActivityPhoneVerification.this, new String[]{Manifest.permission.READ_SMS}, 4);
             }
         }
     }
@@ -556,4 +589,8 @@ public class ActivityPhoneVerification extends AppCompatActivity implements Loca
         mHandler.removeCallbacks(mRunnable);
     }
 
+//    @Override
+//    public void messageReceived(String message) {
+//        Toast.makeText(this, "New Message Received: " + message, Toast.LENGTH_SHORT).show();
+//    }
 }
