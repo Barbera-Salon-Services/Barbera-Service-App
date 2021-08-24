@@ -14,9 +14,10 @@ public class BookingModel {
     private List<String> sidlist;
     private String serviceId;
     private String mode;
+    private String phone;
 
     public BookingModel(String summary, int amount, String date, String time, String address, double distance,
-                        String userId,List<String> sidlist,int totalTime,String serviceId,String status,String mode) {
+                        String userId,List<String> sidlist,int totalTime,String serviceId,String status,String mode,String phone) {
         this.summary = summary;
         this.amount = amount;
         this.date = date;
@@ -29,6 +30,11 @@ public class BookingModel {
         this.serviceId=serviceId;
         this.status=status;
         this.mode=mode;
+        this.phone=phone;
+    }
+
+    public String getPhone() {
+        return phone;
     }
 
     public void setStatus(String status) {

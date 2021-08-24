@@ -102,6 +102,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         }
 
         holder.address.setText(bookingItem.getAddress());
+        holder.phone.setText(bookingItem.getPhone());
         holder.service.setText(bookingItem.getSummary());
         holder.amount.setText(bookingItem.getAmount()+"");
         holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");
@@ -245,13 +246,14 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
         private TextView service;
         private TextView amount;
         private TextView time,status;
-        private TextView distance;
+        private TextView distance,phone;
         private EditText enterOtp;
         private Button start,barberLeft;
         private ImageView direction;
         public BookingItemHolder(@NonNull View itemView) {
             super(itemView);
             address = itemView.findViewById(R.id.add);
+            phone=itemView.findViewById(R.id.num);
             service = itemView.findViewById(R.id.service);
             amount = itemView.findViewById(R.id.amt);
             time = itemView.findViewById(R.id.Time1);

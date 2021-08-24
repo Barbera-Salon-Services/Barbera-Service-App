@@ -116,7 +116,7 @@ public class BookingFragment extends Fragment {
                     progressDialog.dismiss();
                 }else{
                     int i = 0, amount = 0,totalTime=0;
-                    String summary = "", date = "", slot = "", timestamp = "",address="",userId="",serviceId="",status="";
+                    String summary = "", date = "", slot = "", timestamp = "",address="",userId="",serviceId="",status="",phone="";
                     double distance=0;
                     List<String> sidlist=new ArrayList<>();
                     for(BookingItem bookingItem: bookingList){
@@ -137,6 +137,7 @@ public class BookingFragment extends Fragment {
                             totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                             serviceId=bookingItem.getServiceId();
                             status=bookingItem.getStatus();
+                            phone=bookingItem.getPhone();
                             i++;
                         } else {
                             if (bookingItem.getTimestamp().equals(timestamp)) {
@@ -156,7 +157,7 @@ public class BookingFragment extends Fragment {
                                 totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                             } else {
                                 //Log.d("timestamp",timestamp);
-                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                                itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode,phone));
                                 date = bookingItem.getDate();
                                 slot = bookingItem.getSlot();
                                 summary = "";
@@ -178,14 +179,15 @@ public class BookingFragment extends Fragment {
                                 totalTime=0;
                                 totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                                 serviceId=bookingItem.getServiceId();
+                                phone=bookingItem.getPhone();
                             }
                         }
                     }
-                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode,phone));
                     if(bookingItems.size()!=0){
                         i = 0;
                         amount = 0;
-                        totalTime=0;summary = "";date = ""; slot = ""; timestamp = "";address="";userId="";serviceId="";status="";
+                        totalTime=0;summary = "";date = ""; slot = ""; timestamp = "";address="";userId="";serviceId="";status="";phone="";
                         distance=0;
                         sidlist=new ArrayList<>();
                         for(BookingItem bookingItem: bookingItems){
@@ -206,6 +208,7 @@ public class BookingFragment extends Fragment {
                                 totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                                 serviceId=bookingItem.getServiceId();
                                 status=bookingItem.getStatus();
+                                phone=bookingItem.getPhone();
                                 i++;
                             } else {
                                 if (bookingItem.getTimestamp().equals(timestamp)) {
@@ -225,7 +228,7 @@ public class BookingFragment extends Fragment {
                                     totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                                 } else {
                                     //Log.d("timestamp",timestamp);
-                                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                                    itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode,phone));
                                     date = bookingItem.getDate();
                                     slot = bookingItem.getSlot();
                                     summary = "";
@@ -247,10 +250,11 @@ public class BookingFragment extends Fragment {
                                     totalTime=0;
                                     totalTime+=bookingItem.getService().getTime()*bookingItem.getQuantity();
                                     serviceId=bookingItem.getServiceId();
+                                    phone=bookingItem.getPhone();
                                 }
                             }
                         }
-                        itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode));
+                        itemList.add(new BookingModel(summary, amount, date, slot,address,distance,userId,sidlist,totalTime,serviceId,status,mode,phone));
                     }
                     progressDialog.dismiss();
                     attach_adapter();
