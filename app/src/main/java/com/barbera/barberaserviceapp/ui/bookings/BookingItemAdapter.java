@@ -1,11 +1,13 @@
 package com.barbera.barberaserviceapp.ui.bookings;
 
+import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.location.Address;
 import android.net.Uri;
 import android.util.Log;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.core.app.ActivityCompat;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.barbera.barberaserviceapp.R;
@@ -47,9 +50,9 @@ import retrofit2.Retrofit;
 
 public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.BookingItemHolder> {
     private List<BookingModel> bookingItemList;
-    private  Context context;
+    private Context context;
 
-    public BookingItemAdapter(List<BookingModel> booking, Context context){
+    public BookingItemAdapter(List<BookingModel> booking, Context context) {
         this.bookingItemList = booking;
         this.context = context;
     }
@@ -57,7 +60,7 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
     @NonNull
     @Override
     public BookingItemHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.booking_item,parent,false);
+        View v = LayoutInflater.from(parent.getContext()).inflate(R.layout.booking_item, parent, false);
         return new BookingItemHolder(v);
     }
 
@@ -65,44 +68,51 @@ public class BookingItemAdapter extends RecyclerView.Adapter<BookingItemAdapter.
     @Override
     public void onBindViewHolder(@NonNull BookingItemAdapter.BookingItemHolder holder, int position) {
         BookingModel bookingItem = bookingItemList.get(position);
-        SharedPreferences preferences= context.getSharedPreferences("Token", Context.MODE_PRIVATE);
-        String token=preferences.getString("token","no");
+        SharedPreferences preferences = context.getSharedPreferences("Token", Context.MODE_PRIVATE);
+        String token = preferences.getString("token", "no");
         Retrofit retrofit = RetrofitClientInstanceBarber.getRetrofitInstance();
         JsonPlaceHolderApi jsonPlaceHolderApi = retrofit.create(JsonPlaceHolderApi.class);
 
-        if(bookingItem.getStatus().equals("done")){
+        if (bookingItem.getStatus().equals("done")) {
             holder.start.setVisibility(View.INVISIBLE);
             holder.enterOtp.setVisibility(View.INVISIBLE);
             holder.barberLeft.setVisibility(View.INVISIBLE);
             holder.status.setText("Completed");
         }
-        if(bookingItem.getStatus().equals("ongoing")){
+        if (bookingItem.getStatus().equals("ongoing")) {
             holder.start.setVisibility(View.VISIBLE);
             holder.enterOtp.setVisibility(View.VISIBLE);
             holder.enterOtp.setHint("Enter end otp");
             holder.barberLeft.setVisibility(View.INVISIBLE);
             holder.status.setText("Ongoing");
         }
-        if(bookingItem.getStatus().equals("pending")){
+        if (bookingItem.getStatus().equals("pending")) {
             holder.start.setVisibility(View.VISIBLE);
             holder.enterOtp.setVisibility(View.VISIBLE);
             holder.enterOtp.setHint("Enter start otp");
             holder.barberLeft.setVisibility(View.VISIBLE);
             holder.status.setText("Pending");
         }
-        if(bookingItem.getMode().equals("start")){
+        if (bookingItem.getMode().equals("start")) {
             //Log.d("here","start");
             holder.barberLeft.setVisibility(View.INVISIBLE);
-        }
-        else{
+        } else {
             holder.barberLeft.setVisibility(View.VISIBLE);
         }
-        if(position!=0){
+        if (position != 0) {
             holder.barberLeft.setVisibility(View.INVISIBLE);
         }
 
         holder.address.setText(bookingItem.getAddress());
         holder.phone.setText(bookingItem.getPhone());
+        holder.phone.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent callIntent = new Intent(Intent.ACTION_DIAL);
+                callIntent.setData(Uri.parse("tel:" + holder.phone.getText().toString().trim()));
+                context.startActivity(callIntent);
+            }
+        });
         holder.service.setText(bookingItem.getSummary());
         holder.amount.setText(bookingItem.getAmount()+"");
         holder.time.setText(bookingItem.getDate()+" "+bookingItem.getTime()+":00");

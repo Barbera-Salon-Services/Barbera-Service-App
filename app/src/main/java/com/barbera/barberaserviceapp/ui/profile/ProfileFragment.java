@@ -29,7 +29,6 @@ import androidx.fragment.app.Fragment;
 import com.barbera.barberaserviceapp.ActivityPhoneVerification;
 import com.barbera.barberaserviceapp.MainActivity;
 import com.barbera.barberaserviceapp.R;
-import com.barbera.barberaserviceapp.SecondScreen;
 import com.barbera.barberaserviceapp.Utils.CoinsItem;
 import com.barbera.barberaserviceapp.network.JsonPlaceHolderApi;
 import com.barbera.barberaserviceapp.network.RetrofitClientInstanceBarber;
